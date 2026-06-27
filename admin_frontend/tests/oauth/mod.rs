@@ -25,7 +25,7 @@ async fn oauth_sign_in() {
 
   // OAuth Param
   let code_challenge = BASE64_STANDARD_NO_PAD.encode(code_challenge_sha256);
-  let client_id = "appflowy_cloud";
+  let client_id = "bincnote_cloud";
   let state = "state123";
 
   {

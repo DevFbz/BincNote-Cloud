@@ -3,7 +3,7 @@ use std::sync::Arc;
 
 use actix_web::web::Data;
 use app_error::AppError;
-use appflowy_collaborate::collab::storage::CollabAccessControlStorage;
+use bincnote_collaborate::collab::storage::CollabAccessControlStorage;
 use chrono::DateTime;
 use chrono::Utc;
 use collab::preclude::Collab;
@@ -74,7 +74,7 @@ use super::utils::CreatedRowDocument;
 use super::utils::DocChanges;
 use super::utils::DEFAULT_SPACE_ICON;
 use super::utils::DEFAULT_SPACE_ICON_COLOR;
-use crate::api::metrics::AppFlowyWebMetrics;
+use crate::api::metrics::BincNoteWebMetrics;
 use crate::api::ws::RealtimeServerAddr;
 use crate::biz::collab::folder_view::check_if_view_is_space;
 use crate::biz::collab::utils::get_database_row_doc_changes;
@@ -197,7 +197,7 @@ fn patch_old_workspace_folder(
 }
 
 async fn fix_old_workspace_folder(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   mut folder: Folder,
@@ -226,7 +226,7 @@ async fn fix_old_workspace_folder(
       &direct_workspace_children,
     )?;
     update_workspace_folder_data(
-      appflowy_web_metrics,
+      bincnote_web_metrics,
       server,
       user,
       workspace_id,
@@ -239,7 +239,7 @@ async fn fix_old_workspace_folder(
 
 #[allow(clippy::too_many_arguments)]
 pub async fn get_user_workspace_structure(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   collab_storage: &CollabAccessControlStorage,
   pg_pool: &PgPool,
@@ -262,7 +262,7 @@ pub async fn get_user_workspace_structure(
   )
   .await?;
   let patched_folder =
-    fix_old_workspace_folder(appflowy_web_metrics, server, user, folder, workspace_id).await?;
+    fix_old_workspace_folder(bincnote_web_metrics, server, user, folder, workspace_id).await?;
 
   let publish_view_ids = select_published_view_ids_for_workspace(pg_pool, workspace_id).await?;
   let publish_view_ids: HashSet<_> = publish_view_ids.into_iter().collect();

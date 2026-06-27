@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use app_error::AppError;
-use appflowy_collaborate::collab::storage::CollabAccessControlStorage;
+use bincnote_collaborate::collab::storage::CollabAccessControlStorage;
 use collab::core::origin::CollabOrigin;
 use collab::preclude::Collab;
 use collab_database::workspace_database::WorkspaceDatabase;

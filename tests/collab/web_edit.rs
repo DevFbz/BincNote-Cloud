@@ -37,7 +37,7 @@ async fn web_and_native_app_edit_same_collab_test() {
   )
   .await
   .unwrap();
-  // AppFlowy Web does not actually rely on the Rust client, the below is just to emulate
+  // BincNote Web does not actually rely on the Rust client, the below is just to emulate
   // the behaviour of the web frontend's javascript client.
   let web_client = TestClient::user_with_new_device(registered_user.clone()).await;
   let collab_doc_state = web_client

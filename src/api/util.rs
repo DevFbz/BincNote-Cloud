@@ -88,7 +88,7 @@ pub fn device_id_from_headers(headers: &HeaderMap) -> Result<&str, AppError> {
   )
 }
 
-/// Create new realtime user for requests from appflowy web
+/// Create new realtime user for requests from bincnote web
 pub fn realtime_user_for_web_request(
   headers: &HeaderMap,
   uid: i64,

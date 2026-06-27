@@ -7,7 +7,7 @@ edition = "2021"
 rayon.workspace = true
 tiktoken-rs = "0.6.0"
 app-error = { workspace = true }
-appflowy-ai-client = { workspace = true, features = ["client-api"] }
+bincnote-ai-client = { workspace = true, features = ["client-api"] }
 collab = { workspace = true }
 collab-entity = { workspace = true }
 collab-document = { workspace = true }

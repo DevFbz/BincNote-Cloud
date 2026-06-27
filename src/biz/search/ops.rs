@@ -4,8 +4,8 @@ use crate::{
   api::metrics::RequestMetrics, biz::collab::folder_view::private_space_and_trash_view_ids,
 };
 use app_error::AppError;
-use appflowy_ai_client::dto::EmbeddingModel;
-use appflowy_collaborate::collab::storage::CollabAccessControlStorage;
+use bincnote_ai_client::dto::EmbeddingModel;
+use bincnote_collaborate::collab::storage::CollabAccessControlStorage;
 use collab_folder::{Folder, View};
 use database::collab::GetCollabOrigin;
 use database::index::{search_documents, SearchDocumentParams};

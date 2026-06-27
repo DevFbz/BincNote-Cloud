@@ -22,7 +22,7 @@ pub struct User {
 }
 
 pub fn generate_unique_email() -> String {
-  format!("user_{}@appflowy.io", Uuid::new_v4())
+  format!("user_{}@bincnote.io", Uuid::new_v4())
 }
 
 pub async fn admin_user_client() -> Client {
@@ -99,12 +99,12 @@ pub async fn api_client_with_email(user_email: &str) -> client_api::Client {
   };
 
   let client = localhost_client();
-  let appflowy_sign_in_url = client
+  let bincnote_sign_in_url = client
     .extract_sign_in_url(&new_user_sign_in_link)
     .await
     .unwrap();
   client
-    .sign_in_with_url(&appflowy_sign_in_url)
+    .sign_in_with_url(&bincnote_sign_in_url)
     .await
     .unwrap();
 

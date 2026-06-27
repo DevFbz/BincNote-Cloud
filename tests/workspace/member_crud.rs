@@ -109,7 +109,7 @@ async fn add_duplicate_workspace_members() {
 async fn add_not_exist_workspace_members() {
   let c1 = TestClient::new_user_without_ws_conn().await;
   let workspace_id = c1.workspace_id().await;
-  let email = format!("{}@appflowy.io", uuid::Uuid::new_v4());
+  let email = format!("{}@bincnote.io", uuid::Uuid::new_v4());
   c1.api_client
     .invite_workspace_members(
       &workspace_id,

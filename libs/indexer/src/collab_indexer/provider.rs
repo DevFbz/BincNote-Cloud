@@ -1,7 +1,7 @@
 use crate::collab_indexer::DocumentIndexer;
 use crate::vector::embedder::AFEmbedder;
 use app_error::AppError;
-use appflowy_ai_client::dto::EmbeddingModel;
+use bincnote_ai_client::dto::EmbeddingModel;
 use async_trait::async_trait;
 use collab::preclude::Collab;
 use collab_entity::CollabType;

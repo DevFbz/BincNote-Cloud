@@ -10,10 +10,10 @@ on:
       package_name:
         description: 'Which package to publish'
         required: true
-        default: '@appflowyinc/client-api-wasm'
+        default: '@bincnoteinc/client-api-wasm'
         type: choice
         options:
-          - '@appflowyinc/client-api-wasm'
+          - '@bincnoteinc/client-api-wasm'
       package_version:
         description: 'Package version'
         required: true
@@ -38,7 +38,7 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: |
-            AppFlowy-Cloud
+            BincNote-Cloud
 
       - name: Install wasm-pack
         run: cargo install wasm-pack

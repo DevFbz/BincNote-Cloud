@@ -1,9 +1,9 @@
 use actix::{Actor, Context, Handler};
-use appflowy_collaborate::actix_ws::client::rt_client::{
+use bincnote_collaborate::actix_ws::client::rt_client::{
   HandlerResult, RealtimeClient, RealtimeServer,
 };
-use appflowy_collaborate::actix_ws::entities::{ClientWebSocketMessage, Connect, Disconnect};
-use appflowy_collaborate::error::RealtimeError;
+use bincnote_collaborate::actix_ws::entities::{ClientWebSocketMessage, Connect, Disconnect};
+use bincnote_collaborate::error::RealtimeError;
 use collab_rt_entity::user::RealtimeUser;
 use collab_rt_entity::{MessageByObjectId, RealtimeMessage};
 use semver::Version;

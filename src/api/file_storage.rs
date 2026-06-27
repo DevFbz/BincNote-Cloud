@@ -24,7 +24,7 @@ use crate::biz::authentication::jwt::UserUuid;
 use crate::biz::data_import::LimitedPayload;
 use crate::state::AppState;
 use anyhow::anyhow;
-use appflowy_ai_client::client::AppFlowyAIClient;
+use bincnote_ai_client::client::BincNoteAIClient;
 use aws_sdk_s3::primitives::ByteStream;
 use collab_importer::util::FileId;
 use database::pg_row::{AFBlobSource, AFBlobStatus};
@@ -378,7 +378,7 @@ async fn get_blob_by_object_key(
     AFBlobSource::UserUpload => {},
     AFBlobSource::AIGen => {
       let spawn_regenerate_image =
-        |client: AppFlowyAIClient, source_metadata: serde_json::Value| {
+        |client: BincNoteAIClient, source_metadata: serde_json::Value| {
           tokio::spawn(async move {
             info!("Regenerate ai image: {:?}", source_metadata);
             let _ = client.regenerate_image(source_metadata).await;

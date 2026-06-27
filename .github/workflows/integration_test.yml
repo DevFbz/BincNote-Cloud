@@ -1,4 +1,4 @@
-name: AppFlowy-Cloud Integrations
+name: BincNote-Cloud Integrations
 
 on:
   push:
@@ -48,17 +48,17 @@ jobs:
         run: |
           export DOCKER_DEFAULT_PLATFORM=linux/amd64
           cp deploy.env .env
-          docker compose build appflowy_cloud  appflowy_worker admin_frontend
+          docker compose build bincnote_cloud  bincnote_worker admin_frontend
 
       - name: Push docker images to docker hub
         run: |
-          docker tag appflowyinc/appflowy_cloud appflowyinc/appflowy_cloud:${GITHUB_SHA}
-          docker tag appflowyinc/appflowy_worker appflowyinc/appflowy_worker:${GITHUB_SHA}
-          docker tag appflowyinc/admin_frontend appflowyinc/admin_frontend:${GITHUB_SHA}
-          echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login --username appflowyinc --password-stdin
-          docker push appflowyinc/appflowy_cloud:${GITHUB_SHA}
-          docker push appflowyinc/appflowy_worker:${GITHUB_SHA}
-          docker push appflowyinc/admin_frontend:${GITHUB_SHA}
+          docker tag bincnoteinc/bincnote_cloud bincnoteinc/bincnote_cloud:${GITHUB_SHA}
+          docker tag bincnoteinc/bincnote_worker bincnoteinc/bincnote_worker:${GITHUB_SHA}
+          docker tag bincnoteinc/admin_frontend bincnoteinc/admin_frontend:${GITHUB_SHA}
+          echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login --username bincnoteinc --password-stdin
+          docker push bincnoteinc/bincnote_cloud:${GITHUB_SHA}
+          docker push bincnoteinc/bincnote_worker:${GITHUB_SHA}
+          docker push bincnoteinc/admin_frontend:${GITHUB_SHA}
           APPFLOWY_WORKER_VERSION=${GITHUB_SHA}
           APPFLOWY_CLOUD_VERSION=${GITHUB_SHA}
           APPFLOWY_ADMIN_FRONTEND_VERSION=${GITHUB_SHA}
@@ -70,10 +70,10 @@ jobs:
     strategy:
       matrix:
         include:
-          - test_service: "appflowy_cloud"
-            test_cmd: "--workspace --exclude appflowy-ai-client --features ai-test-enabled"
-          - test_service: "appflowy_worker"
-            test_cmd: "-p appflowy-worker"
+          - test_service: "bincnote_cloud"
+            test_cmd: "--workspace --exclude bincnote-ai-client --features ai-test-enabled"
+          - test_service: "bincnote_worker"
+            test_cmd: "-p bincnote-worker"
           - test_service: "admin_frontend"
             test_cmd: "-p admin_frontend"
     steps:
@@ -82,7 +82,7 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           toolchain: ${{ env.RUST_TOOLCHAIN }}
-          workspaces: "AppFlowy-Cloud"
+          workspaces: "BincNote-Cloud"
 
       - name: Copy and rename deploy.env to .env
         run: cp deploy.env .env
@@ -90,7 +90,7 @@ jobs:
       - name: Replace values in .env
         run: |
           # log level
-          sed -i 's|RUST_LOG=.*|RUST_LOG='appflowy_cloud=trace,appflowy_worker=trace,database=trace,indexer=trace'|' .env
+          sed -i 's|RUST_LOG=.*|RUST_LOG='bincnote_cloud=trace,bincnote_worker=trace,database=trace,indexer=trace'|' .env
           sed -i 's|GOTRUE_SMTP_USER=.*|GOTRUE_SMTP_USER=${{ secrets.CI_GOTRUE_SMTP_USER }}|' .env
           sed -i 's|GOTRUE_SMTP_PASS=.*|GOTRUE_SMTP_PASS=${{ secrets.CI_GOTRUE_SMTP_PASS }}|' .env
           sed -i 's|GOTRUE_SMTP_ADMIN_EMAIL=.*|GOTRUE_SMTP_ADMIN_EMAIL=${{ secrets.CI_GOTRUE_SMTP_ADMIN_EMAIL }}|' .env
@@ -148,7 +148,7 @@ jobs:
       - name: AI Logs
         if: failure()
         run: |
-          docker logs appflowy-cloud-ai-1
+          docker logs bincnote-cloud-ai-1
 
   cleanup:
     name: Cleanup Docker Images
@@ -158,13 +158,13 @@ jobs:
     steps:
       - name: Remove Docker Images from Docker Hub
         run: |
-          TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "appflowyinc", "password": "${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}"}' https://hub.docker.com/v2/users/login/ | jq -r .token)
+          TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "bincnoteinc", "password": "${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}"}' https://hub.docker.com/v2/users/login/ | jq -r .token)
           if [ -z "$TOKEN" ]; then
             echo "Error: Docker Hub token not set"
             exit 1
           fi
           IMAGE_TAG="${{ matrix.test_service }}"
-          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X DELETE -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/appflowyinc/${IMAGE_TAG}/tags/${GITHUB_SHA}/)
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X DELETE -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/bincnoteinc/${IMAGE_TAG}/tags/${GITHUB_SHA}/)
           if [ "$RESPONSE" -ne 204 ]; then
             echo "Error: Failed to delete Docker image tag. HTTP response code: $RESPONSE"
           else

@@ -1,6 +1,6 @@
 use app_error::ErrorCode;
-use appflowy_collaborate::collab::cache::mem_cache::CollabMemCache;
-use appflowy_collaborate::CollabMetrics;
+use bincnote_collaborate::collab::cache::mem_cache::CollabMemCache;
+use bincnote_collaborate::CollabMetrics;
 use client_api_test::*;
 use collab::core::transaction::DocTransactionExtension;
 use collab::entity::EncodedCollab;

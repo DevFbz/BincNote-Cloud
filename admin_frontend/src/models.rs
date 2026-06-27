@@ -4,7 +4,7 @@ use crate::{config::Config, session};
 
 #[derive(Clone)]
 pub struct AppState {
-  pub appflowy_cloud_url: String,
+  pub bincnote_cloud_url: String,
   pub gotrue_client: gotrue::api::Client,
   pub session_store: session::SessionStorage,
   pub config: Config,

@@ -179,7 +179,7 @@ impl Client {
   }
 
   /// Get the file with the given url. The url should be in the format of
-  /// `https://appflowy.io/api/file_storage/<workspace_id>/<file_id>`.
+  /// `https://bincnote.io/api/file_storage/<workspace_id>/<file_id>`.
   #[instrument(level = "info", skip_all)]
   pub async fn get_blob(&self, url: &str) -> Result<(Mime, Vec<u8>), AppResponseError> {
     let resp = self

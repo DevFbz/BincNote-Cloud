@@ -1,4 +1,4 @@
-use appflowy_collaborate::collab::storage::CollabAccessControlStorage;
+use bincnote_collaborate::collab::storage::CollabAccessControlStorage;
 use database::{
   collab::GetCollabOrigin,
   publish::{

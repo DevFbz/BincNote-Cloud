@@ -78,7 +78,7 @@ impl RequestMetrics {
   pub fn register(registry: &mut Registry) -> Self {
     let af_metrics = Self::init();
 
-    let af_registry = registry.sub_registry_with_prefix("appflowy_cloud");
+    let af_registry = registry.sub_registry_with_prefix("bincnote_cloud");
     af_registry.register(
       "requests_count",
       "number of requests",
@@ -229,14 +229,14 @@ impl PublishedCollabMetrics {
   }
 }
 
-pub struct AppFlowyWebMetrics {
+pub struct BincNoteWebMetrics {
   pub update_size_bytes: Histogram,
   pub decoding_failure_count: Gauge,
   pub apply_update_failure_count: Gauge,
   pub apply_update_timeout_count: Gauge,
 }
 
-impl AppFlowyWebMetrics {
+impl BincNoteWebMetrics {
   pub fn init() -> Self {
     let update_size_buckets = exponential_buckets(1024.0, 2.0, 10);
 
@@ -250,7 +250,7 @@ impl AppFlowyWebMetrics {
 
   pub fn register(registry: &mut Registry) -> Self {
     let metrics = Self::init();
-    let web_update_registry = registry.sub_registry_with_prefix("appflowy_web");
+    let web_update_registry = registry.sub_registry_with_prefix("bincnote_web");
     web_update_registry.register(
       "update_size_bytes",
       "Size of the update in bytes",

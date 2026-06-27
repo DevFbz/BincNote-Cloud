@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 use std::time::Duration;
 
-use appflowy_ai_client::dto::CalculateSimilarityParams;
+use bincnote_ai_client::dto::CalculateSimilarityParams;
 use client_api_test::{ai_test_enabled, collect_answer, TestClient};
 use collab::preclude::Collab;
 use collab_document::document::Document;
@@ -166,7 +166,7 @@ async fn test_document_indexing_and_search() {
   assert_eq!(item.object_id, object_id);
 
   let preview = item.preview.clone().unwrap();
-  assert!(preview.contains("Welcome to AppFlowy"));
+  assert!(preview.contains("Welcome to BincNote"));
 }
 
 async fn create_document_collab(document_id: &str, file_name: &str) -> Document {

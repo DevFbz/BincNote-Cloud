@@ -4,8 +4,8 @@ use super::workspace_dto::{ViewIcon, ViewLayout};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-/// Copied from AppFlowy-IO/AppFlowy/frontend/rust-lib/flowy-folder-pub/src/entities.rs
-/// TODO(zack): make AppFlowy use from this crate instead
+/// Copied from BincNote-IO/BincNote/frontend/rust-lib/flowy-folder-pub/src/entities.rs
+/// TODO(zack): make BincNote use from this crate instead
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct PublishViewMeta {
   pub metadata: PublishViewMetaData,

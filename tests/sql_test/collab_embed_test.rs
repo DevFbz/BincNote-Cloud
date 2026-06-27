@@ -1,7 +1,7 @@
 use crate::sql_test::util::{
   create_test_collab_document, create_test_user, select_all_fragments, setup_db, upsert_test_chunks,
 };
-use appflowy_ai_client::dto::EmbeddingModel;
+use bincnote_ai_client::dto::EmbeddingModel;
 use indexer::collab_indexer::split_text_into_chunks;
 use sqlx::PgPool;
 
@@ -25,7 +25,7 @@ async fn insert_collab_embedding_fragment_test(pool: PgPool) {
 
   let user_uuid = uuid::Uuid::new_v4();
   let name = user_uuid.to_string();
-  let email = format!("{}@appflowy.io", name);
+  let email = format!("{}@bincnote.io", name);
   let user = create_test_user(&pool, user_uuid, &email, &name)
     .await
     .unwrap();
@@ -86,7 +86,7 @@ async fn test_embed_over_context_size(pool: PgPool) {
 
   let user_uuid = uuid::Uuid::new_v4();
   let name = user_uuid.to_string();
-  let email = format!("{}@appflowy.io", name);
+  let email = format!("{}@bincnote.io", name);
   let user = create_test_user(&pool, user_uuid, &email, &name)
     .await
     .unwrap();

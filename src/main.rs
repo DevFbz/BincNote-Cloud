@@ -1,11 +1,11 @@
-use appflowy_cloud::application::{init_state, Application};
-use appflowy_cloud::config::config::get_configuration;
-use appflowy_cloud::telemetry::init_subscriber;
+use bincnote_cloud::application::{init_state, Application};
+use bincnote_cloud::config::config::get_configuration;
+use bincnote_cloud::telemetry::init_subscriber;
 
 #[actix_web::main]
 async fn main() -> anyhow::Result<()> {
   let level = std::env::var("RUST_LOG").unwrap_or("info".to_string());
-  println!("AppFlowy Cloud with RUST_LOG={}", level);
+  println!("BincNote Cloud with RUST_LOG={}", level);
 
   // Load environment variables from .env file
   dotenvy::dotenv().ok();

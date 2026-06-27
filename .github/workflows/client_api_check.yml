@@ -17,7 +17,7 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: |
-            AppFlowy-Cloud
+            BincNote-Cloud
 
       - name: Install cargo-tree
         run: cargo install cargo-tree

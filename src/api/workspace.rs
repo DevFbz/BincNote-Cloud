@@ -39,7 +39,7 @@ use actix_web::{web, HttpResponse, ResponseError, Scope};
 use actix_web::{HttpRequest, Result};
 use anyhow::{anyhow, Context};
 use app_error::{AppError, ErrorCode};
-use appflowy_collaborate::actix_ws::entities::{
+use bincnote_collaborate::actix_ws::entities::{
   ClientGenerateEmbeddingMessage, ClientHttpStreamMessage, ClientHttpUpdateMessage,
 };
 
@@ -523,7 +523,7 @@ async fn post_workspace_invite_handler(
     &user_uuid,
     &workspace_id,
     invitations,
-    &state.config.appflowy_web_url,
+    &state.config.bincnote_web_url,
   )
   .await?;
   Ok(AppResponse::Ok().into())
@@ -1205,7 +1205,7 @@ async fn post_web_update_handler(
   let collab_type = payload.collab_type;
 
   update_page_collab_data(
-    &state.metrics.appflowy_web_metrics,
+    &state.metrics.bincnote_web_metrics,
     server,
     user,
     workspace_id,
@@ -1229,7 +1229,7 @@ async fn post_space_handler(
   let workspace_uuid = path.into_inner();
   let user = realtime_user_for_web_request(req.headers(), uid)?;
   let space = create_space(
-    &state.metrics.appflowy_web_metrics,
+    &state.metrics.bincnote_web_metrics,
     server,
     user,
     &state.pg_pool,
@@ -1257,7 +1257,7 @@ async fn update_space_handler(
   let (workspace_uuid, view_id) = path.into_inner();
   let user = realtime_user_for_web_request(req.headers(), uid)?;
   update_space(
-    &state.metrics.appflowy_web_metrics,
+    &state.metrics.bincnote_web_metrics,
     server,
     user,
     &state.collab_access_control_storage,
@@ -1284,7 +1284,7 @@ async fn post_folder_view_handler(
   let workspace_uuid = path.into_inner();
   let user = realtime_user_for_web_request(req.headers(), uid)?;
   let page = create_folder_view(
-    &state.metrics.appflowy_web_metrics,
+    &state.metrics.bincnote_web_metrics,
     server,
     user,
     &state.collab_access_control_storage,
@@ -1312,7 +1312,7 @@ async fn post_page_view_handler(
   let workspace_uuid = path.into_inner();
   let user = realtime_user_for_web_request(req.headers(), uid)?;
   let page = create_page(
-    &state.metrics.appflowy_web_metrics,
+    &state.metrics.bincnote_web_metrics,
     server,
     user,
     &state.pg_pool,
@@ -1351,7 +1351,7 @@ async fn append_block_to_page_handler(
     .into_iter()
     .collect::<Result<Vec<SerdeBlock>, AppError>>()?;
   append_block_at_the_end_of_page(
-    &state.metrics.appflowy_web_metrics,
+    &state.metrics.bincnote_web_metrics,
     server,
     user,
     &state.collab_access_control_storage,
@@ -1375,7 +1375,7 @@ async fn move_page_handler(
   let (workspace_uuid, view_id) = path.into_inner();
   let user = realtime_user_for_web_request(req.headers(), uid)?;
   move_page(
-    &state.metrics.appflowy_web_metrics,
+    &state.metrics.bincnote_web_metrics,
     server,
     user,
     &state.collab_access_control_storage,
@@ -1400,7 +1400,7 @@ async fn reorder_favorite_page_handler(
   let (workspace_uuid, view_id) = path.into_inner();
   let user = realtime_user_for_web_request(req.headers(), uid)?;
   reorder_favorite_page(
-    &state.metrics.appflowy_web_metrics,
+    &state.metrics.bincnote_web_metrics,
     server,
     user,
     &state.collab_access_control_storage,
@@ -1425,7 +1425,7 @@ async fn duplicate_page_handler(
   let user = realtime_user_for_web_request(req.headers(), uid)?;
   let suffix = payload.suffix.as_deref().unwrap_or(" (Copy)").to_string();
   duplicate_view_tree_and_collab(
-    &state.metrics.appflowy_web_metrics,
+    &state.metrics.bincnote_web_metrics,
     server,
     user,
     state.collab_access_control_storage.clone(),
@@ -1449,7 +1449,7 @@ async fn move_page_to_trash_handler(
   let (workspace_uuid, view_id) = path.into_inner();
   let user = realtime_user_for_web_request(req.headers(), uid)?;
   move_page_to_trash(
-    &state.metrics.appflowy_web_metrics,
+    &state.metrics.bincnote_web_metrics,
     server,
     user,
     &state.collab_access_control_storage,
@@ -1471,7 +1471,7 @@ async fn restore_page_from_trash_handler(
   let (workspace_uuid, view_id) = path.into_inner();
   let user = realtime_user_for_web_request(req.headers(), uid)?;
   restore_page_from_trash(
-    &state.metrics.appflowy_web_metrics,
+    &state.metrics.bincnote_web_metrics,
     server,
     user,
     &state.collab_access_control_storage,
@@ -1495,7 +1495,7 @@ async fn add_recent_pages_handler(
   let user = realtime_user_for_web_request(req.headers(), uid)?;
   let AddRecentPagesParams { recent_view_ids } = payload.into_inner();
   add_recent_pages(
-    &state.metrics.appflowy_web_metrics,
+    &state.metrics.bincnote_web_metrics,
     server,
     user,
     &state.collab_access_control_storage,
@@ -1517,7 +1517,7 @@ async fn restore_all_pages_from_trash_handler(
   let workspace_uuid = path.into_inner();
   let user = realtime_user_for_web_request(req.headers(), uid)?;
   restore_all_pages_from_trash(
-    &state.metrics.appflowy_web_metrics,
+    &state.metrics.bincnote_web_metrics,
     server,
     user,
     &state.collab_access_control_storage,
@@ -1546,7 +1546,7 @@ async fn delete_page_from_trash_handler(
     .await?;
   let user = realtime_user_for_web_request(req.headers(), uid)?;
   delete_trash(
-    &state.metrics.appflowy_web_metrics,
+    &state.metrics.bincnote_web_metrics,
     server,
     user,
     &state.collab_access_control_storage,
@@ -1576,7 +1576,7 @@ async fn delete_all_pages_from_trash_handler(
     .await?;
   let user = realtime_user_for_web_request(req.headers(), uid)?;
   delete_all_pages_from_trash(
-    &state.metrics.appflowy_web_metrics,
+    &state.metrics.bincnote_web_metrics,
     server,
     user,
     &state.collab_access_control_storage,
@@ -1662,7 +1662,7 @@ async fn post_page_database_view_handler(
   let user = realtime_user_for_web_request(req.headers(), uid)?;
   let (workspace_uuid, view_id) = path.into_inner();
   create_database_view(
-    &state.metrics.appflowy_web_metrics,
+    &state.metrics.bincnote_web_metrics,
     server,
     user,
     &state.pg_pool,
@@ -1694,7 +1694,7 @@ async fn update_page_view_handler(
     .map(|json_value| json_value.to_string());
   let user = realtime_user_for_web_request(req.headers(), uid)?;
   update_page(
-    &state.metrics.appflowy_web_metrics,
+    &state.metrics.bincnote_web_metrics,
     server,
     user,
     &state.collab_access_control_storage,
@@ -1721,7 +1721,7 @@ async fn update_page_name_handler(
   let (workspace_uuid, view_id) = path.into_inner();
   let user = realtime_user_for_web_request(req.headers(), uid)?;
   update_page_name(
-    &state.metrics.appflowy_web_metrics,
+    &state.metrics.bincnote_web_metrics,
     server,
     user,
     &state.collab_access_control_storage,
@@ -1746,7 +1746,7 @@ async fn update_page_icon_handler(
   let icon = &payload.icon;
   let user = realtime_user_for_web_request(req.headers(), uid)?;
   update_page_icon(
-    &state.metrics.appflowy_web_metrics,
+    &state.metrics.bincnote_web_metrics,
     server,
     user,
     &state.collab_access_control_storage,
@@ -1770,7 +1770,7 @@ async fn update_page_extra_handler(
   let (workspace_uuid, view_id) = path.into_inner();
   let user = realtime_user_for_web_request(req.headers(), uid)?;
   update_page_extra(
-    &state.metrics.appflowy_web_metrics,
+    &state.metrics.bincnote_web_metrics,
     server,
     user,
     &state.collab_access_control_storage,
@@ -1793,7 +1793,7 @@ async fn remove_page_icon_handler(
   let (workspace_uuid, view_id) = path.into_inner();
   let user = realtime_user_for_web_request(req.headers(), uid)?;
   update_page_icon(
-    &state.metrics.appflowy_web_metrics,
+    &state.metrics.bincnote_web_metrics,
     server,
     user,
     &state.collab_access_control_storage,
@@ -1840,7 +1840,7 @@ async fn favorite_page_view_handler(
   let (workspace_uuid, view_id) = path.into_inner();
   let user = realtime_user_for_web_request(req.headers(), uid)?;
   favorite_page(
-    &state.metrics.appflowy_web_metrics,
+    &state.metrics.bincnote_web_metrics,
     server,
     user,
     &state.collab_access_control_storage,
@@ -2488,7 +2488,7 @@ async fn get_workspace_folder_handler(
     .await?;
   let root_view_id = query.root_view_id.unwrap_or(workspace_id);
   let folder_view = biz::collab::ops::get_user_workspace_structure(
-    &state.metrics.appflowy_web_metrics,
+    &state.metrics.bincnote_web_metrics,
     server,
     &state.collab_access_control_storage,
     &state.pg_pool,

@@ -6,7 +6,7 @@ use shared_entity::response::AppResponseError;
 pub enum Error {
   NotOk(u16, String), // HTTP status code, payload
   Reqwest(reqwest::Error),
-  AppFlowyCloud(AppResponseError),
+  BincNoteCloud(AppResponseError),
   Unhandled(String),
 }
 

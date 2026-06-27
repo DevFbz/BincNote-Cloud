@@ -1,7 +1,7 @@
 use crate::vector::open_ai;
 use crate::vector::open_ai::async_embed;
 use app_error::AppError;
-use appflowy_ai_client::dto::EmbeddingModel;
+use bincnote_ai_client::dto::EmbeddingModel;
 pub use async_openai::config::{AzureConfig, OpenAIConfig};
 pub use async_openai::types::{
   CreateEmbeddingRequest, CreateEmbeddingRequestArgs, CreateEmbeddingResponse, EmbeddingInput,

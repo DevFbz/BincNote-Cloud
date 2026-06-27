@@ -20,7 +20,7 @@ use actix_web::cookie::Key;
 use actix_web::middleware::NormalizePath;
 use actix_web::{dev::Server, web, web::Data, App, HttpResponse, HttpServer, Responder};
 use anyhow::{Context, Error};
-use appflowy_collaborate::collab::access_control::CollabStorageAccessControlImpl;
+use bincnote_collaborate::collab::access_control::CollabStorageAccessControlImpl;
 use aws_sdk_s3::config::{Credentials, Region, SharedCredentialsProvider};
 use aws_sdk_s3::operation::create_bucket::CreateBucketError;
 use aws_sdk_s3::types::{
@@ -32,13 +32,13 @@ use sqlx::{postgres::PgPoolOptions, PgPool};
 use tokio::sync::RwLock;
 use tracing::{error, info};
 
-use appflowy_ai_client::client::AppFlowyAIClient;
-use appflowy_collaborate::actix_ws::server::RealtimeServerActor;
-use appflowy_collaborate::collab::cache::CollabCache;
-use appflowy_collaborate::collab::storage::CollabStorageImpl;
-use appflowy_collaborate::command::{CLCommandReceiver, CLCommandSender};
-use appflowy_collaborate::snapshot::SnapshotControl;
-use appflowy_collaborate::CollaborationServer;
+use bincnote_ai_client::client::BincNoteAIClient;
+use bincnote_collaborate::actix_ws::server::RealtimeServerActor;
+use bincnote_collaborate::collab::cache::CollabCache;
+use bincnote_collaborate::collab::storage::CollabStorageImpl;
+use bincnote_collaborate::command::{CLCommandReceiver, CLCommandSender};
+use bincnote_collaborate::snapshot::SnapshotControl;
+use bincnote_collaborate::CollaborationServer;
 use collab_stream::awareness_gossip::AwarenessGossip;
 use collab_stream::metrics::CollabStreamMetrics;
 use collab_stream::stream_router::{StreamRouter, StreamRouterOptions};
@@ -241,8 +241,8 @@ pub async fn init_state(config: &Config, rt_cmd_tx: CLCommandSender) -> Result<A
   )
   .await?;
 
-  info!("Setup AppFlowy AI: {}", config.appflowy_ai.url());
-  let appflowy_ai_client = AppFlowyAIClient::new(&config.appflowy_ai.url());
+  info!("Setup BincNote AI: {}", config.bincnote_ai.url());
+  let bincnote_ai_client = BincNoteAIClient::new(&config.bincnote_ai.url());
   // Pg listeners
   info!("Setting up Pg listeners...");
   let pg_listeners = Arc::new(PgListeners::new(&pg_pool).await?);
@@ -310,7 +310,7 @@ pub async fn init_state(config: &Config, rt_cmd_tx: CLCommandSender) -> Result<A
       .unwrap_or(true),
     open_ai_config,
     azure_ai_config,
-    embedding_buffer_size: appflowy_collaborate::config::get_env_var(
+    embedding_buffer_size: bincnote_collaborate::config::get_env_var(
       "APPFLOWY_INDEXER_EMBEDDING_BUFFER_SIZE",
       "5000",
     )
@@ -348,7 +348,7 @@ pub async fn init_state(config: &Config, rt_cmd_tx: CLCommandSender) -> Result<A
     metrics,
     gotrue_admin,
     mailer,
-    ai_client: appflowy_ai_client,
+    ai_client: bincnote_ai_client,
     indexer_scheduler,
   })
 }

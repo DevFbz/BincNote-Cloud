@@ -25,7 +25,7 @@ pub fn load_env() {
 }
 
 pub fn ai_test_enabled() -> bool {
-  // In appflowy GitHub CI, we enable 'ai-test-enabled' feature by default, so even if the env var is not set,
+  // In bincnote GitHub CI, we enable 'ai-test-enabled' feature by default, so even if the env var is not set,
   // we still enable the local ai test.
   if cfg!(feature = "ai-test-enabled") {
     return true;
@@ -46,7 +46,7 @@ pub fn setup_log() {
     let level = std::env::var("RUST_LOG").unwrap_or("trace".to_string());
     let mut filters = vec![];
     filters.push(format!("client_api={}", level));
-    filters.push(format!("appflowy_cloud={}", level));
+    filters.push(format!("bincnote_cloud={}", level));
     filters.push(format!("collab={}", level));
     std::env::set_var("RUST_LOG", filters.join(","));
 

@@ -1,4 +1,4 @@
-# Essential services for AppFlowy Cloud
+# Essential services for BincNote Cloud
 
 services:
   nginx:
@@ -16,7 +16,7 @@ services:
       #- ./nginx_logs:/var/log/nginx
 
   # You do not need this if you have configured to use your own s3 file storage
-  # You can try to access http://localhost/minio/browser/appflowy in your browser
+  # You can try to access http://localhost/minio/browser/bincnote in your browser
   minio:
     restart: on-failure
     image: minio/minio
@@ -61,7 +61,7 @@ services:
 
   gotrue:
     restart: on-failure
-    image: appflowyinc/gotrue:${GOTRUE_VERSION:-latest}
+    image: bincnoteinc/gotrue:${GOTRUE_VERSION:-latest}
     depends_on:
       postgres:
         condition: service_healthy
@@ -76,7 +76,7 @@ services:
       - GOTRUE_ADMIN_EMAIL=${GOTRUE_ADMIN_EMAIL}
       - GOTRUE_ADMIN_PASSWORD=${GOTRUE_ADMIN_PASSWORD}
       - GOTRUE_DISABLE_SIGNUP=${GOTRUE_DISABLE_SIGNUP:-false}
-      - GOTRUE_SITE_URL=appflowy-flutter://                           # redirected to AppFlowy application
+      - GOTRUE_SITE_URL=bincnote-flutter://                           # redirected to BincNote application
       - URI_ALLOW_LIST=*                                              # adjust restrict if necessary
       - GOTRUE_JWT_SECRET=${GOTRUE_JWT_SECRET}                        # authentication secret
       - GOTRUE_JWT_EXP=${GOTRUE_JWT_EXP}
@@ -89,13 +89,13 @@ services:
       - PORT=9999
       - GOTRUE_SMTP_HOST=${GOTRUE_SMTP_HOST}                          # e.g. smtp.gmail.com
       - GOTRUE_SMTP_PORT=${GOTRUE_SMTP_PORT}                          # e.g. 465
-      - GOTRUE_SMTP_USER=${GOTRUE_SMTP_USER}                          # email sender, e.g. noreply@appflowy.io
+      - GOTRUE_SMTP_USER=${GOTRUE_SMTP_USER}                          # email sender, e.g. noreply@bincnote.io
       - GOTRUE_SMTP_PASS=${GOTRUE_SMTP_PASS}                          # email password
       - GOTRUE_MAILER_URLPATHS_CONFIRMATION=/gotrue/verify
       - GOTRUE_MAILER_URLPATHS_INVITE=/gotrue/verify
       - GOTRUE_MAILER_URLPATHS_RECOVERY=/gotrue/verify
       - GOTRUE_MAILER_URLPATHS_EMAIL_CHANGE=/gotrue/verify
-      - GOTRUE_SMTP_ADMIN_EMAIL=${GOTRUE_SMTP_ADMIN_EMAIL}                # email with admin privileges e.g. internal@appflowy.io
+      - GOTRUE_SMTP_ADMIN_EMAIL=${GOTRUE_SMTP_ADMIN_EMAIL}                # email with admin privileges e.g. internal@bincnote.io
       - GOTRUE_SMTP_MAX_FREQUENCY=${GOTRUE_SMTP_MAX_FREQUENCY:-1ns}       # set to 1ns for running tests
       - GOTRUE_RATE_LIMIT_EMAIL_SENT=${GOTRUE_RATE_LIMIT_EMAIL_SENT:-100} # number of email sendable per minute
       - GOTRUE_MAILER_AUTOCONFIRM=${GOTRUE_MAILER_AUTOCONFIRM:-false}     # change this to true to skip email confirmation
@@ -117,7 +117,7 @@ services:
     networks:
       - shared_network
 
-  appflowy_cloud:
+  bincnote_cloud:
     restart: on-failure
     ports:
       - 8000:8000
@@ -155,7 +155,7 @@ services:
         PROFILE: ci
     networks:
       - shared_network
-    image: appflowyinc/appflowy_cloud:${APPFLOWY_CLOUD_VERSION:-latest}
+    image: bincnoteinc/bincnote_cloud:${APPFLOWY_CLOUD_VERSION:-latest}
     depends_on:
       gotrue:
         condition: service_healthy
@@ -165,26 +165,26 @@ services:
     build:
       context: .
       dockerfile: ./admin_frontend/Dockerfile
-    image: appflowyinc/admin_frontend:${APPFLOWY_ADMIN_FRONTEND_VERSION:-latest}
+    image: bincnoteinc/admin_frontend:${APPFLOWY_ADMIN_FRONTEND_VERSION:-latest}
     ports:
       - 3000:3000
     environment:
       - RUST_LOG=${RUST_LOG:-info}
       - ADMIN_FRONTEND_REDIS_URL=${ADMIN_FRONTEND_REDIS_URL:-redis://redis:6379}
       - ADMIN_FRONTEND_GOTRUE_URL=${ADMIN_FRONTEND_GOTRUE_URL:-http://gotrue:9999}
-      - ADMIN_FRONTEND_APPFLOWY_CLOUD_URL=${ADMIN_FRONTEND_APPFLOWY_CLOUD_URL:-http://appflowy_cloud:8000}
+      - ADMIN_FRONTEND_APPFLOWY_CLOUD_URL=${ADMIN_FRONTEND_APPFLOWY_CLOUD_URL:-http://bincnote_cloud:8000}
       - ADMIN_FRONTEND_PATH_PREFIX=${ADMIN_FRONTEND_PATH_PREFIX:-}
     networks:
       - shared_network
     depends_on:
       gotrue:
         condition: service_healthy
-      appflowy_cloud:
+      bincnote_cloud:
         condition: service_started
 
   ai:
     restart: on-failure
-    image: appflowyinc/appflowy_ai_premium:${APPFLOWY_AI_VERSION:-latest}
+    image: bincnoteinc/bincnote_ai_premium:${APPFLOWY_AI_VERSION:-latest}
     ports:
       - "5001:5001"
     environment:
@@ -203,12 +203,12 @@ services:
     networks:
       - shared_network
 
-  appflowy_worker:
+  bincnote_worker:
     restart: on-failure
-    image: appflowyinc/appflowy_worker:${APPFLOWY_WORKER_VERSION:-latest}
+    image: bincnoteinc/bincnote_worker:${APPFLOWY_WORKER_VERSION:-latest}
     build:
       context: .
-      dockerfile: ./services/appflowy-worker/Dockerfile
+      dockerfile: ./services/bincnote-worker/Dockerfile
     ports:
       - "4001:4001"
     environment:
@@ -237,5 +237,5 @@ volumes:
 
 networks:
   shared_network:
-    name: appflowy_network
+    name: bincnote_network
     driver: bridge

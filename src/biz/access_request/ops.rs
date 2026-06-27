@@ -10,7 +10,7 @@ use crate::{
 use access_control::workspace::WorkspaceAccessControl;
 use anyhow::Context;
 use app_error::AppError;
-use appflowy_collaborate::collab::storage::CollabAccessControlStorage;
+use bincnote_collaborate::collab::storage::CollabAccessControlStorage;
 use database::{
   access_request::{
     insert_new_access_request, select_access_request_by_request_id, update_access_request_status,
@@ -27,7 +27,7 @@ use uuid::Uuid;
 pub async fn create_access_request(
   pg_pool: &PgPool,
   mailer: AFCloudMailer,
-  appflowy_web_url: &str,
+  bincnote_web_url: &str,
   workspace_id: Uuid,
   view_id: Uuid,
   uid: i64,
@@ -37,7 +37,7 @@ pub async fn create_access_request(
   let cloned_mailer = mailer.clone();
   let approve_url = format!(
     "{}/app/approve-request?request_id={}",
-    appflowy_web_url, request_id
+    bincnote_web_url, request_id
   );
   let email = access_request.workspace.owner_email.clone();
   let recipient_name = access_request.workspace.owner_name.clone();
@@ -115,7 +115,7 @@ pub async fn approve_or_reject_access_request(
   pg_pool: &PgPool,
   workspace_access_control: Arc<dyn WorkspaceAccessControl>,
   mailer: AFCloudMailer,
-  appflowy_web_url: &str,
+  bincnote_web_url: &str,
   request_id: Uuid,
   uid: i64,
   is_approved: bool,
@@ -145,7 +145,7 @@ pub async fn approve_or_reject_access_request(
     let cloned_mailer = mailer.clone();
     let launch_workspace_url = format!(
       "{}/app/{}",
-      appflowy_web_url, &access_request.workspace.workspace_id
+      bincnote_web_url, &access_request.workspace.workspace_id
     );
 
     // use default icon until we have workspace icon

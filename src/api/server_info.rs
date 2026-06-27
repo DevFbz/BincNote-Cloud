@@ -17,7 +17,7 @@ async fn server_info_handler(
       .with_data(ServerInfoResponseItem {
         supported_client_features: vec![],
         minimum_supported_client_version: None,
-        appflowy_web_url: state.config.appflowy_web_url.clone(),
+        bincnote_web_url: state.config.bincnote_web_url.clone(),
       })
       .into(),
   )

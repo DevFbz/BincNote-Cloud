@@ -4,7 +4,7 @@ use crate::state::AppState;
 use actix_web::web::{Data, Json};
 use actix_web::{web, HttpRequest, HttpResponse, Scope};
 use app_error::AppError;
-use appflowy_ai_client::dto::{
+use bincnote_ai_client::dto::{
   CalculateSimilarityParams, LocalAIConfig, ModelList, SimilarityResponse, TranslateRowParams,
   TranslateRowResponse,
 };

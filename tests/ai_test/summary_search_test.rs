@@ -1,4 +1,4 @@
-use appflowy_cloud::api::search::create_ai_tool;
+use bincnote_cloud::api::search::create_ai_tool;
 use client_api_test::{ai_test_enabled, load_env};
 use indexer::vector::embedder::get_open_ai_config;
 use llm_client::chat::LLMDocument;

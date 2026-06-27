@@ -331,7 +331,7 @@ async fn two_direction_peer_sync_test() {
     .open_collab(workspace_id, object_id, collab_type)
     .await;
 
-  client_1.insert_into(&object_id, "name", "AppFlowy").await;
+  client_1.insert_into(&object_id, "name", "BincNote").await;
   client_1
     .wait_object_sync_complete(&object_id)
     .await
@@ -350,7 +350,7 @@ async fn two_direction_peer_sync_test() {
     .unwrap();
 
   let expected_json = json!({
-    "name": "AppFlowy",
+    "name": "BincNote",
     "support platform": "macOS, Windows, Linux, iOS, Android"
   });
   assert_client_collab_include_value(&mut client_1, &object_id, expected_json.clone())

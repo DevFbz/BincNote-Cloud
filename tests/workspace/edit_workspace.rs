@@ -17,14 +17,14 @@ async fn edit_workspace_without_permission() {
   client_2.open_workspace_collab(workspace_id).await;
 
   client_1
-    .insert_into(&workspace_id, "name", "AppFlowy")
+    .insert_into(&workspace_id, "name", "BincNote")
     .await;
   client_1
     .wait_object_sync_complete(&workspace_id)
     .await
     .unwrap();
 
-  assert_client_collab_include_value(&mut client_1, &workspace_id, json!({"name": "AppFlowy"}))
+  assert_client_collab_include_value(&mut client_1, &workspace_id, json!({"name": "BincNote"}))
     .await
     .unwrap();
 
@@ -49,7 +49,7 @@ async fn init_sync_workspace_with_member_permission() {
     .unwrap();
   guest.open_workspace_collab(workspace_id).await;
 
-  owner.insert_into(&workspace_id, "name", "AppFlowy").await;
+  owner.insert_into(&workspace_id, "name", "BincNote").await;
   owner
     .wait_object_sync_complete(&workspace_id)
     .await
@@ -59,7 +59,7 @@ async fn init_sync_workspace_with_member_permission() {
     &mut owner,
     &workspace_id,
     "name",
-    json!({"name": "AppFlowy"}),
+    json!({"name": "BincNote"}),
     60,
   )
   .await;
@@ -67,7 +67,7 @@ async fn init_sync_workspace_with_member_permission() {
     &mut guest,
     &workspace_id,
     "name",
-    json!({"name": "AppFlowy"}),
+    json!({"name": "BincNote"}),
     60,
   )
   .await;

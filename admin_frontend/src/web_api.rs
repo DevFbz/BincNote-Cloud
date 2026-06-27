@@ -96,16 +96,16 @@ async fn admin_create_sso_handler(
   Ok(WebApiResponse::<()>::from_str("SSO Added".into()))
 }
 
-/// Generates a URL to facilitate login redirection to the AppFlowy app from a web browser.
+/// Generates a URL to facilitate login redirection to the BincNote app from a web browser.
 ///
 /// This function creates a custom URL scheme that can be used in a web browser to open the
-/// AppFlowy app and automatically handle user login based on the provided `UserSession`.
+/// BincNote app and automatically handle user login based on the provided `UserSession`.
 ///
 /// # Returns
 /// A `Result` containing `HeaderMap` for HTTP redirection if successful, or `WebApiError` in case of failure.
 ///
 /// # Example URL Format
-/// `appflowy-flutter://login-callback#access_token=...&expires_at=...&expires_in=...&refresh_token=...&token_type=...`
+/// `bincnote-flutter://login-callback#access_token=...&expires_at=...&expires_in=...&refresh_token=...&token_type=...`
 ///
 /// The URL includes access token information and other relevant session details.
 ///
@@ -117,7 +117,7 @@ async fn open_app_handler(
   session: UserSession,
 ) -> Result<axum::response::Response, WebApiError<'static>> {
   let app_sign_in_url = format!(
-      "appflowy-flutter://login-callback#access_token={}&expires_at={}&expires_in={}&refresh_token={}&token_type={}",
+      "bincnote-flutter://login-callback#access_token={}&expires_at={}&expires_in={}&refresh_token={}&token_type={}",
         session.token.access_token,
         session.token.expires_at,
         session.token.expires_in,
@@ -132,7 +132,7 @@ async fn delete_account_handler(
   state: State<AppState>,
   session: UserSession,
 ) -> Result<axum::response::Response, WebApiError<'static>> {
-  delete_current_user(&session.token.access_token, &state.appflowy_cloud_url).await?;
+  delete_current_user(&session.token.access_token, &state.bincnote_cloud_url).await?;
   let redirect_url = state.prepend_with_path_prefix("/web/login");
   Ok(Redirect::to(&redirect_url).into_response())
 }
@@ -171,7 +171,7 @@ async fn workspace_invite_handler(
     &session.token.access_token,
     &workspace_id,
     &param.email,
-    &state.appflowy_cloud_url,
+    &state.bincnote_cloud_url,
   )
   .await?;
 
@@ -186,7 +186,7 @@ async fn leave_workspace_handler(
   leave_workspace(
     &session.token.access_token,
     &workspace_id,
-    &state.appflowy_cloud_url,
+    &state.bincnote_cloud_url,
   )
   .await?;
 
@@ -201,7 +201,7 @@ async fn invite_accept_handler(
   accept_workspace_invitation(
     &session.token.access_token,
     &invite_id,
-    &state.appflowy_cloud_url,
+    &state.bincnote_cloud_url,
   )
   .await?;
 
@@ -588,7 +588,7 @@ async fn session_login(
 ) -> Result<axum::response::Response, WebApiError<'static>> {
   verify_token_cloud(
     token.access_token.as_str(),
-    state.appflowy_cloud_url.as_str(),
+    state.bincnote_cloud_url.as_str(),
   )
   .await?;
 

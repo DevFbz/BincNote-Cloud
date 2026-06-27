@@ -2,7 +2,7 @@ use crate::collab_indexer::IndexerProvider;
 use crate::entity::{EmbeddingRecord, UnindexedCollab};
 use crate::scheduler::{batch_insert_records, IndexerScheduler};
 use crate::vector::embedder::AFEmbedder;
-use appflowy_ai_client::dto::EmbeddingModel;
+use bincnote_ai_client::dto::EmbeddingModel;
 use collab::core::collab::DataSource;
 use collab::core::origin::CollabOrigin;
 use collab::preclude::Collab;

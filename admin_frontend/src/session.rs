@@ -233,7 +233,7 @@ fn has_expired(access_token: &str) -> bool {
 }
 
 fn get_session_expiration(access_token: &str) -> Option<u64> {
-  // no need to verify, let the appflowy cloud server do it
+  // no need to verify, let the bincnote cloud server do it
   // in that way, frontend server does not need to know the secret
   match jwt::Token::<Header, Claims, _>::parse_unverified(access_token) {
     Ok(unverified) => unverified.claims().registered.expiration,

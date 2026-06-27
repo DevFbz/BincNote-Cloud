@@ -1,5 +1,5 @@
 use app_error::AppError;
-use appflowy_collaborate::collab::storage::CollabAccessControlStorage;
+use bincnote_collaborate::collab::storage::CollabAccessControlStorage;
 
 use anyhow::anyhow;
 use bytes::Bytes;

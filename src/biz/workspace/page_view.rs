@@ -1,4 +1,4 @@
-use crate::api::metrics::AppFlowyWebMetrics;
+use crate::api::metrics::BincNoteWebMetrics;
 use crate::api::ws::RealtimeServerAddr;
 use crate::biz::chat::ops::create_chat;
 use crate::biz::collab::database::{
@@ -16,8 +16,8 @@ use crate::biz::collab::utils::{
 use actix_web::web::Data;
 use anyhow::anyhow;
 use app_error::AppError;
-use appflowy_collaborate::actix_ws::entities::ClientHttpUpdateMessage;
-use appflowy_collaborate::collab::storage::CollabAccessControlStorage;
+use bincnote_collaborate::actix_ws::entities::ClientHttpUpdateMessage;
+use bincnote_collaborate::collab::storage::CollabAccessControlStorage;
 use bytes::Bytes;
 use chrono::DateTime;
 use collab::core::collab::Collab;
@@ -73,7 +73,7 @@ use super::publish::PublishedCollabStore;
 
 #[allow(clippy::too_many_arguments)]
 pub async fn update_space(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   collab_storage: &CollabAccessControlStorage,
@@ -96,7 +96,7 @@ pub async fn update_space(
   )
   .await?;
   update_workspace_folder_data(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server,
     user,
     workspace_id,
@@ -108,7 +108,7 @@ pub async fn update_space(
 
 #[allow(clippy::too_many_arguments)]
 pub async fn create_space(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   pg_pool: &PgPool,
@@ -148,7 +148,7 @@ pub async fn create_space(
     )
     .await?;
   update_workspace_folder_data(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server,
     user,
     workspace_id,
@@ -163,7 +163,7 @@ pub async fn create_space(
 // Different from create page as this function does not create an associated collab
 #[allow(clippy::too_many_arguments)]
 pub async fn create_folder_view(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   collab_storage: &CollabAccessControlStorage,
@@ -203,7 +203,7 @@ pub async fn create_folder_view(
   };
 
   update_workspace_folder_data(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server.clone(),
     user.clone(),
     workspace_id,
@@ -215,7 +215,7 @@ pub async fn create_folder_view(
     (workspace_database_id, workspace_database_update)
   {
     update_workspace_database_data(
-      appflowy_web_metrics,
+      bincnote_web_metrics,
       server,
       user,
       workspace_id,
@@ -229,7 +229,7 @@ pub async fn create_folder_view(
 
 #[allow(clippy::too_many_arguments)]
 pub async fn create_page(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   pg_pool: &PgPool,
@@ -245,7 +245,7 @@ pub async fn create_page(
   match view_layout {
     ViewLayout::Document => {
       create_document_page(
-        appflowy_web_metrics,
+        bincnote_web_metrics,
         server,
         user,
         pg_pool,
@@ -262,7 +262,7 @@ pub async fn create_page(
     //TODO: allow view id and database id to be overriden
     ViewLayout::Grid => {
       create_grid_page(
-        appflowy_web_metrics,
+        bincnote_web_metrics,
         server,
         user,
         pg_pool,
@@ -275,7 +275,7 @@ pub async fn create_page(
     },
     ViewLayout::Calendar => {
       create_calendar_page(
-        appflowy_web_metrics,
+        bincnote_web_metrics,
         server,
         user,
         pg_pool,
@@ -288,7 +288,7 @@ pub async fn create_page(
     },
     ViewLayout::Board => {
       create_board_page(
-        appflowy_web_metrics,
+        bincnote_web_metrics,
         server,
         user,
         pg_pool,
@@ -301,7 +301,7 @@ pub async fn create_page(
     },
     ViewLayout::Chat => {
       create_chat_page(
-        appflowy_web_metrics,
+        bincnote_web_metrics,
         server,
         user,
         pg_pool,
@@ -525,7 +525,7 @@ async fn prepare_default_board_encoded_database(
 }
 
 pub async fn append_block_at_the_end_of_page(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   collab_storage: &CollabAccessControlStorage,
@@ -538,7 +538,7 @@ pub async fn append_block_at_the_end_of_page(
     append_block_to_document_collab(user.uid, collab_storage, workspace_id, oid, serde_blocks)
       .await?;
   update_page_collab_data(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server,
     user,
     workspace_id,
@@ -1009,7 +1009,7 @@ async fn delete_all_views_from_trash(folder: &mut Folder) -> Result<Vec<u8>, App
 
 #[allow(clippy::too_many_arguments)]
 async fn create_document_page(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   pg_pool: &PgPool,
@@ -1054,7 +1054,7 @@ async fn create_document_page(
     )
     .await?;
   update_workspace_folder_data(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server,
     user,
     workspace_id,
@@ -1068,7 +1068,7 @@ async fn create_document_page(
 
 #[allow(clippy::too_many_arguments)]
 async fn create_grid_page(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   pg_pool: &PgPool,
@@ -1082,7 +1082,7 @@ async fn create_grid_page(
   let default_grid_encoded_database =
     prepare_default_grid_encoded_database(&view_id, &database_id, name.unwrap_or_default()).await?;
   create_database_page(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server,
     user,
     pg_pool,
@@ -1099,7 +1099,7 @@ async fn create_grid_page(
 
 #[allow(clippy::too_many_arguments)]
 async fn create_board_page(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   pg_pool: &PgPool,
@@ -1114,7 +1114,7 @@ async fn create_board_page(
     prepare_default_board_encoded_database(&view_id, &database_id, name.unwrap_or_default())
       .await?;
   create_database_page(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server,
     user,
     pg_pool,
@@ -1131,7 +1131,7 @@ async fn create_board_page(
 
 #[allow(clippy::too_many_arguments)]
 async fn create_calendar_page(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   pg_pool: &PgPool,
@@ -1146,7 +1146,7 @@ async fn create_calendar_page(
     prepare_default_calendar_encoded_database(&view_id, &database_id, name.unwrap_or_default())
       .await?;
   create_database_page(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server,
     user,
     pg_pool,
@@ -1163,7 +1163,7 @@ async fn create_calendar_page(
 
 #[allow(clippy::too_many_arguments)]
 async fn create_database_page(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   pg_pool: &PgPool,
@@ -1229,7 +1229,7 @@ async fn create_database_page(
     .batch_insert_new_collab(workspace_id, &user.uid, row_collab_params_list)
     .await?;
   update_workspace_folder_data(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server.clone(),
     user.clone(),
     workspace_id,
@@ -1237,7 +1237,7 @@ async fn create_database_page(
   )
   .await?;
   update_workspace_database_data(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server,
     user,
     workspace_id,
@@ -1274,7 +1274,7 @@ async fn get_rag_ids(folder: &Folder, parent_view_id: &Uuid) -> Vec<Uuid> {
 
 #[allow(clippy::too_many_arguments)]
 async fn create_chat_page(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   pg_pool: &PgPool,
@@ -1308,7 +1308,7 @@ async fn create_chat_page(
   )
   .await?;
   update_workspace_folder_data(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server.clone(),
     user.clone(),
     workspace_id,
@@ -1320,7 +1320,7 @@ async fn create_chat_page(
 
 #[allow(clippy::too_many_arguments)]
 pub async fn move_page(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   collab_storage: &CollabAccessControlStorage,
@@ -1333,7 +1333,7 @@ pub async fn move_page(
   let mut folder = get_latest_collab_folder(collab_storage, collab_origin, workspace_id).await?;
   let folder_update = move_view(view_id, new_parent_view_id, prev_view_id, &mut folder).await?;
   update_workspace_folder_data(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server,
     user,
     workspace_id,
@@ -1345,7 +1345,7 @@ pub async fn move_page(
 
 #[allow(clippy::too_many_arguments)]
 pub async fn reorder_favorite_page(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   collab_storage: &CollabAccessControlStorage,
@@ -1357,7 +1357,7 @@ pub async fn reorder_favorite_page(
   let mut folder = get_latest_collab_folder(collab_storage, collab_origin, workspace_id).await?;
   let folder_update = reorder_favorite_section(view_id, prev_view_id, &mut folder).await?;
   update_workspace_folder_data(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server,
     user,
     workspace_id,
@@ -1368,7 +1368,7 @@ pub async fn reorder_favorite_page(
 }
 
 pub async fn move_page_to_trash(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   collab_storage: &CollabAccessControlStorage,
@@ -1383,7 +1383,7 @@ pub async fn move_page_to_trash(
   }
   let folder_update = move_view_to_trash(view_id, &mut folder).await?;
   update_workspace_folder_data(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server,
     user,
     workspace_id,
@@ -1394,7 +1394,7 @@ pub async fn move_page_to_trash(
 }
 
 pub async fn restore_page_from_trash(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   collab_storage: &CollabAccessControlStorage,
@@ -1405,7 +1405,7 @@ pub async fn restore_page_from_trash(
   let mut folder = get_latest_collab_folder(collab_storage, collab_origin, workspace_id).await?;
   let folder_update = move_view_out_from_trash(view_id, &mut folder).await?;
   update_workspace_folder_data(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server,
     user,
     workspace_id,
@@ -1416,7 +1416,7 @@ pub async fn restore_page_from_trash(
 }
 
 pub async fn add_recent_pages(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   collab_storage: &CollabAccessControlStorage,
@@ -1427,7 +1427,7 @@ pub async fn add_recent_pages(
   let mut folder = get_latest_collab_folder(collab_storage, collab_origin, workspace_id).await?;
   let folder_update = extend_recent_views(&recent_view_ids, &mut folder).await?;
   update_workspace_folder_data(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server,
     user,
     workspace_id,
@@ -1438,7 +1438,7 @@ pub async fn add_recent_pages(
 }
 
 pub async fn restore_all_pages_from_trash(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   collab_storage: &CollabAccessControlStorage,
@@ -1448,7 +1448,7 @@ pub async fn restore_all_pages_from_trash(
   let mut folder = get_latest_collab_folder(collab_storage, collab_origin, workspace_id).await?;
   let folder_update = move_all_views_out_from_trash(&mut folder).await?;
   update_workspace_folder_data(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server,
     user,
     workspace_id,
@@ -1459,7 +1459,7 @@ pub async fn restore_all_pages_from_trash(
 }
 
 pub async fn delete_trash(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   collab_storage: &CollabAccessControlStorage,
@@ -1470,12 +1470,12 @@ pub async fn delete_trash(
   let collab_origin = GetCollabOrigin::User { uid };
   let mut folder = get_latest_collab_folder(collab_storage, collab_origin, workspace_id).await?;
   let update = delete_view_from_trash(view_id, &mut folder).await?;
-  update_workspace_folder_data(appflowy_web_metrics, server, user, workspace_id, update).await?;
+  update_workspace_folder_data(bincnote_web_metrics, server, user, workspace_id, update).await?;
   Ok(())
 }
 
 pub async fn delete_all_pages_from_trash(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   collab_storage: &CollabAccessControlStorage,
@@ -1485,13 +1485,13 @@ pub async fn delete_all_pages_from_trash(
   let collab_origin = GetCollabOrigin::User { uid };
   let mut folder = get_latest_collab_folder(collab_storage, collab_origin, workspace_id).await?;
   let update = delete_all_views_from_trash(&mut folder).await?;
-  update_workspace_folder_data(appflowy_web_metrics, server, user, workspace_id, update).await?;
+  update_workspace_folder_data(bincnote_web_metrics, server, user, workspace_id, update).await?;
   Ok(())
 }
 
 #[allow(clippy::too_many_arguments)]
 pub async fn update_page(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   collab_storage: &CollabAccessControlStorage,
@@ -1507,7 +1507,7 @@ pub async fn update_page(
   let folder_update =
     update_view_properties(view_id, &mut folder, name, icon, is_locked, extra).await?;
   update_workspace_folder_data(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server,
     user,
     workspace_id,
@@ -1519,7 +1519,7 @@ pub async fn update_page(
 }
 
 pub async fn update_page_name(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   collab_storage: &CollabAccessControlStorage,
@@ -1531,7 +1531,7 @@ pub async fn update_page_name(
   let mut folder = get_latest_collab_folder(collab_storage, collab_origin, workspace_id).await?;
   let folder_update = update_view_name(view_id, &mut folder, name).await?;
   update_workspace_folder_data(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server,
     user,
     workspace_id,
@@ -1543,7 +1543,7 @@ pub async fn update_page_name(
 }
 
 pub async fn update_page_icon(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   collab_storage: &CollabAccessControlStorage,
@@ -1555,7 +1555,7 @@ pub async fn update_page_icon(
   let mut folder = get_latest_collab_folder(collab_storage, collab_origin, workspace_id).await?;
   let folder_update = update_view_icon(view_id, &mut folder, icon).await?;
   update_workspace_folder_data(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server,
     user,
     workspace_id,
@@ -1567,7 +1567,7 @@ pub async fn update_page_icon(
 }
 
 pub async fn update_page_extra(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   collab_storage: &CollabAccessControlStorage,
@@ -1579,7 +1579,7 @@ pub async fn update_page_extra(
   let mut folder = get_latest_collab_folder(collab_storage, collab_origin, workspace_id).await?;
   let folder_update = update_view_extra(view_id, &mut folder, extra).await?;
   update_workspace_folder_data(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server,
     user,
     workspace_id,
@@ -1592,7 +1592,7 @@ pub async fn update_page_extra(
 
 #[allow(clippy::too_many_arguments)]
 pub async fn favorite_page(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   collab_storage: &CollabAccessControlStorage,
@@ -1605,7 +1605,7 @@ pub async fn favorite_page(
   let mut folder = get_latest_collab_folder(collab_storage, collab_origin, workspace_id).await?;
   let folder_update = update_favorite_view(view_id, &mut folder, is_favorite, is_pinned).await?;
   update_workspace_folder_data(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server,
     user,
     workspace_id,
@@ -1682,7 +1682,7 @@ pub async fn publish_page(
       child_views: None,
     },
     // Note: The use of child views and ancestor views are going to be deprecated in
-    // appflowy web as there is now endpoint to obtain published outline.
+    // bincnote web as there is now endpoint to obtain published outline.
     child_views: vec![],
     ancestor_views: vec![],
   };
@@ -2111,7 +2111,7 @@ async fn get_page_collab_data_for_document(
 
 #[allow(clippy::too_many_arguments)]
 pub async fn create_database_view(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   pg_pool: &PgPool,
@@ -2240,7 +2240,7 @@ pub async fn create_database_view(
   )
   .await?;
   update_database_data(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server.clone(),
     user.clone(),
     workspace_id,
@@ -2249,7 +2249,7 @@ pub async fn create_database_view(
   )
   .await?;
   update_workspace_database_data(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server.clone(),
     user.clone(),
     workspace_id,
@@ -2258,7 +2258,7 @@ pub async fn create_database_view(
   )
   .await?;
   update_workspace_folder_data(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server,
     user,
     workspace_id,
@@ -2271,7 +2271,7 @@ pub async fn create_database_view(
 
 #[instrument(level = "debug", skip_all)]
 pub async fn update_page_collab_data(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   workspace_id: Uuid,
@@ -2279,7 +2279,7 @@ pub async fn update_page_collab_data(
   collab_type: CollabType,
   doc_state: Vec<u8>,
 ) -> Result<(), AppError> {
-  appflowy_web_metrics.record_update_size_bytes(doc_state.len());
+  bincnote_web_metrics.record_update_size_bytes(doc_state.len());
 
   let message = ClientHttpUpdateMessage {
     user,
@@ -2300,13 +2300,13 @@ pub async fn update_page_collab_data(
 
 #[instrument(level = "debug", skip_all)]
 pub async fn update_workspace_folder_data(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   workspace_id: Uuid,
   update: Vec<u8>,
 ) -> Result<(), AppError> {
-  appflowy_web_metrics.record_update_size_bytes(update.len());
+  bincnote_web_metrics.record_update_size_bytes(update.len());
 
   let (tx, rx) = tokio::sync::oneshot::channel();
   let message = ClientHttpUpdateMessage {
@@ -2329,7 +2329,7 @@ pub async fn update_workspace_folder_data(
   )
   .await
   .map_err(|err| {
-    appflowy_web_metrics.incr_apply_update_timeout_count(1);
+    bincnote_web_metrics.incr_apply_update_timeout_count(1);
     AppError::Internal(anyhow!(
       "Failed to receive apply update within timeout: {}",
       err
@@ -2340,7 +2340,7 @@ pub async fn update_workspace_folder_data(
   match resp {
     Ok(_) => Ok(()),
     Err(err) => {
-      appflowy_web_metrics.incr_apply_update_failure_count(1);
+      bincnote_web_metrics.incr_apply_update_failure_count(1);
       Err(AppError::Internal(anyhow!(
         "Failed to apply folder update: {}",
         err
@@ -2351,14 +2351,14 @@ pub async fn update_workspace_folder_data(
 
 #[instrument(level = "debug", skip_all)]
 pub async fn update_workspace_database_data(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   workspace_id: Uuid,
   workspace_database_id: Uuid,
   update: Vec<u8>,
 ) -> Result<(), AppError> {
-  appflowy_web_metrics.record_update_size_bytes(update.len());
+  bincnote_web_metrics.record_update_size_bytes(update.len());
 
   let (tx, rx) = tokio::sync::oneshot::channel();
   let message = ClientHttpUpdateMessage {
@@ -2381,7 +2381,7 @@ pub async fn update_workspace_database_data(
   )
   .await
   .map_err(|err| {
-    appflowy_web_metrics.incr_apply_update_timeout_count(1);
+    bincnote_web_metrics.incr_apply_update_timeout_count(1);
     AppError::Internal(anyhow!(
       "Failed to receive apply update within timeout: {}",
       err
@@ -2397,7 +2397,7 @@ pub async fn update_workspace_database_data(
   match resp {
     Ok(_) => Ok(()),
     Err(err) => {
-      appflowy_web_metrics.incr_apply_update_failure_count(1);
+      bincnote_web_metrics.incr_apply_update_failure_count(1);
       Err(AppError::Internal(anyhow!(
         "Failed to apply workspace database update: {}",
         err
@@ -2408,14 +2408,14 @@ pub async fn update_workspace_database_data(
 
 #[instrument(level = "debug", skip_all)]
 pub async fn update_database_data(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   workspace_id: Uuid,
   database_id: Uuid,
   update: Vec<u8>,
 ) -> Result<(), AppError> {
-  appflowy_web_metrics.record_update_size_bytes(update.len());
+  bincnote_web_metrics.record_update_size_bytes(update.len());
 
   let (tx, rx) = tokio::sync::oneshot::channel();
   let message = ClientHttpUpdateMessage {
@@ -2438,7 +2438,7 @@ pub async fn update_database_data(
   )
   .await
   .map_err(|err| {
-    appflowy_web_metrics.incr_apply_update_timeout_count(1);
+    bincnote_web_metrics.incr_apply_update_timeout_count(1);
     AppError::Internal(anyhow!(
       "Failed to receive apply update within timeout: {}",
       err
@@ -2449,7 +2449,7 @@ pub async fn update_database_data(
   match resp {
     Ok(_) => Ok(()),
     Err(err) => {
-      appflowy_web_metrics.incr_apply_update_failure_count(1);
+      bincnote_web_metrics.incr_apply_update_failure_count(1);
       Err(AppError::Internal(anyhow!(
         "Failed to apply database update: {}",
         err

@@ -41,12 +41,12 @@ jobs:
       - name: Build and Push GoTrue
         run: |
           export TAG=${GITHUB_REF#refs/*/}
-          docker buildx build --platform linux/amd64,linux/arm64 -t appflowyinc/gotrue:${TAG} -t appflowyinc/gotrue:latest -f docker/gotrue/Dockerfile --push docker/gotrue
+          docker buildx build --platform linux/amd64,linux/arm64 -t bincnoteinc/gotrue:${TAG} -t bincnoteinc/gotrue:latest -f docker/gotrue/Dockerfile --push docker/gotrue
 
-  appflowy_cloud_image:
+  bincnote_cloud_image:
     runs-on: ${{ matrix.job.os }}
     env:
-      IMAGE_NAME: ${{ secrets.DOCKER_HUB_USERNAME }}/appflowy_cloud
+      IMAGE_NAME: ${{ secrets.DOCKER_HUB_USERNAME }}/bincnote_cloud
     strategy:
       fail-fast: false
       matrix:
@@ -102,14 +102,14 @@ jobs:
         if: always()
         run: docker logout
 
-  appflowy_cloud_docker_manifest:
+  bincnote_cloud_docker_manifest:
     runs-on: ubuntu-22.04
-    needs: [ appflowy_cloud_image ]
+    needs: [ bincnote_cloud_image ]
     strategy:
       fail-fast: false
       matrix:
         job:
-          - { image_name: "appflowy_cloud" }
+          - { image_name: "bincnote_cloud" }
 
     steps:
       - name: Log in to Docker Hub
@@ -239,10 +239,10 @@ jobs:
         if: always()
         run: docker logout
 
-  appflowy_worker_image:
+  bincnote_worker_image:
     runs-on: ${{ matrix.job.os }}
     env:
-      IMAGE_NAME: ${{ secrets.DOCKER_HUB_USERNAME }}/appflowy_worker
+      IMAGE_NAME: ${{ secrets.DOCKER_HUB_USERNAME }}/bincnote_worker
     strategy:
       fail-fast: false
       matrix:
@@ -284,7 +284,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           platforms: ${{ matrix.job.docker_platform }}
-          file: ./services/appflowy-worker/Dockerfile
+          file: ./services/bincnote-worker/Dockerfile
           push: true
           tags: |
             ${{ env.IMAGE_NAME }}:${{ env.LATEST_TAG }}-${{ matrix.job.name }}
@@ -296,14 +296,14 @@ jobs:
         if: always()
         run: docker logout
 
-  appflowy_worker_manifest:
+  bincnote_worker_manifest:
     runs-on: ubuntu-22.04
-    needs: [ appflowy_worker_image ]
+    needs: [ bincnote_worker_image ]
     strategy:
       fail-fast: false
       matrix:
         job:
-          - { image_name: "appflowy_worker" }
+          - { image_name: "bincnote_worker" }
 
     steps:
       - name: Log in to Docker Hub

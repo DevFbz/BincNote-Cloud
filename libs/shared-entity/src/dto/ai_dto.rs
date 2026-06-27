@@ -1,5 +1,5 @@
 use crate::dto::chat_dto::ChatMessage;
-pub use appflowy_ai_client::dto::*;
+pub use bincnote_ai_client::dto::*;
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value};
 use uuid::Uuid;

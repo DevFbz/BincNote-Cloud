@@ -43,13 +43,13 @@ jobs:
           file: ./docker/gotrue/Dockerfile
           push: true
           tags: |
-            appflowyinc/gotrue:${{ github.event.inputs.debug_version }}-test
+            bincnoteinc/gotrue:${{ github.event.inputs.debug_version }}-test
 
       - name: Logout from Docker Hub
         if: always()
         run: docker logout
 
-  appflowy_cloud:
+  bincnote_cloud:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
@@ -69,14 +69,14 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Build and push AppFlowy Cloud image
+      - name: Build and push BincNote Cloud image
         uses: docker/build-push-action@v5
         with:
           context: .
           platforms: ${{ github.event.inputs.archs }}
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/appflowy_cloud:${{ github.event.inputs.debug_version }}-test
+            ${{ secrets.DOCKER_HUB_USERNAME }}/bincnote_cloud:${{ github.event.inputs.debug_version }}-test
 
       - name: Logout from Docker Hub
         if: always()
@@ -116,7 +116,7 @@ jobs:
         if: always()
         run: docker logout
 
-  appflowy_worker:
+  bincnote_worker:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
@@ -136,15 +136,15 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Build and push AppFlowy Worker image
+      - name: Build and push BincNote Worker image
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./services/appflowy-worker/Dockerfile
+          file: ./services/bincnote-worker/Dockerfile
           platforms: ${{ github.event.inputs.archs }}
           push: true
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/appflowy_worker:${{ github.event.inputs.debug_version }}-test
+            ${{ secrets.DOCKER_HUB_USERNAME }}/bincnote_worker:${{ github.event.inputs.debug_version }}-test
 
       - name: Logout from Docker Hub
         if: always()

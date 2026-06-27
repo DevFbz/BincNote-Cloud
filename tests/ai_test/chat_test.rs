@@ -1,7 +1,7 @@
 use crate::ai_test::util::extract_image_url;
 use std::time::Duration;
 
-use appflowy_ai_client::dto::{
+use bincnote_ai_client::dto::{
   ChatQuestionQuery, OutputContent, OutputContentMetadata, OutputLayout, ResponseFormat,
 };
 use client_api::entity::{QuestionStream, QuestionStreamValue};

@@ -9,7 +9,7 @@
 package-lock.json
 yarn.lock
 node_modules
-**/libs/AppFlowy-Collab/
+**/libs/BincNote-Collab/
 data/
 .env
 .logs

@@ -140,13 +140,13 @@ async fn admin_generate_link_and_user_sign_in_and_invite() {
   // invite another user through magic link
   {
     let client = localhost_client();
-    let appflowy_sign_in_url = client
+    let bincnote_sign_in_url = client
       .extract_sign_in_url(&new_user_sign_in_link)
       .await
       .unwrap();
 
     let is_new = client
-      .sign_in_with_url(&appflowy_sign_in_url)
+      .sign_in_with_url(&bincnote_sign_in_url)
       .await
       .unwrap();
     assert!(is_new);

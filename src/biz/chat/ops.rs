@@ -1,7 +1,7 @@
 use anyhow::anyhow;
 
 use app_error::AppError;
-use appflowy_ai_client::client::AppFlowyAIClient;
+use bincnote_ai_client::client::BincNoteAIClient;
 use database::chat;
 use database::chat::chat_ops::{
   delete_answer_message_by_question_message_id, insert_answer_message,
@@ -43,7 +43,7 @@ pub async fn update_chat_message(
   workspace_id: String,
   pg_pool: &PgPool,
   params: UpdateChatMessageContentParams,
-  ai_client: AppFlowyAIClient,
+  ai_client: BincNoteAIClient,
   ai_model: &str,
 ) -> Result<(), AppError> {
   let mut txn = pg_pool.begin().await?;
@@ -83,7 +83,7 @@ pub async fn update_chat_message(
 pub async fn generate_chat_message_answer(
   workspace_id: String,
   pg_pool: &PgPool,
-  ai_client: AppFlowyAIClient,
+  ai_client: BincNoteAIClient,
   question_message_id: i64,
   chat_id: &str,
   ai_model: &str,

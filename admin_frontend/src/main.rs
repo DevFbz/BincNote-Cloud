@@ -51,7 +51,7 @@ async fn main() {
   let address = format!("{}:{}", config.host, config.port);
   let path_prefix = config.path_prefix.clone();
   let state = AppState {
-    appflowy_cloud_url: config.appflowy_cloud_url.clone(),
+    bincnote_cloud_url: config.bincnote_cloud_url.clone(),
     gotrue_client,
     session_store,
     config,

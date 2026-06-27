@@ -27,7 +27,7 @@ fn load_yrs_0172_version_get_started_document_using_current_yrs_version() {
   let icon_data = icon_block.data.get("icon").unwrap().as_str().unwrap();
   assert_eq!(icon_data, "🥰");
 
-  let welcome_to_appflowy = document_data
+  let welcome_to_bincnote = document_data
     .meta
     .text_map
     .as_ref()
@@ -35,7 +35,7 @@ fn load_yrs_0172_version_get_started_document_using_current_yrs_version() {
     .get("OETXfTYZEw")
     .unwrap();
   assert_eq!(
-    welcome_to_appflowy,
-    r#"[{"insert":"Welcome to AppFlowy!"}]"#
+    welcome_to_bincnote,
+    r#"[{"insert":"Welcome to BincNote!"}]"#
   );
 }

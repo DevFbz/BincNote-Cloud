@@ -6,7 +6,7 @@ use std::{
 use actix_web::web::Data;
 use anyhow::anyhow;
 use app_error::AppError;
-use appflowy_collaborate::collab::storage::CollabAccessControlStorage;
+use bincnote_collaborate::collab::storage::CollabAccessControlStorage;
 use collab_database::{
   database::{gen_database_id, gen_row_id, timestamp, Database, DatabaseContext, DatabaseData},
   entity::{CreateDatabaseParams, CreateViewParams},
@@ -25,7 +25,7 @@ use sqlx::PgPool;
 use uuid::Uuid;
 
 use crate::{
-  api::{metrics::AppFlowyWebMetrics, ws::RealtimeServerAddr},
+  api::{metrics::BincNoteWebMetrics, ws::RealtimeServerAddr},
   biz::collab::{
     database::PostgresDatabaseCollabService,
     utils::{collab_from_doc_state, get_latest_collab_encoded, get_latest_collab_folder},
@@ -36,7 +36,7 @@ use super::page_view::{update_workspace_database_data, update_workspace_folder_d
 
 #[allow(clippy::too_many_arguments)]
 pub async fn duplicate_view_tree_and_collab(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   collab_storage: Arc<CollabAccessControlStorage>,
@@ -100,7 +100,7 @@ pub async fn duplicate_view_tree_and_collab(
   })?;
 
   duplicate_database(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server.clone(),
     user.clone(),
     collab_storage.clone(),
@@ -126,7 +126,7 @@ pub async fn duplicate_view_tree_and_collab(
     txn.encode_update_v1()
   };
   update_workspace_folder_data(
-    appflowy_web_metrics,
+    bincnote_web_metrics,
     server,
     user,
     workspace_id,
@@ -191,7 +191,7 @@ fn duplicate_database_data_with_context(
 }
 
 async fn duplicate_database(
-  appflowy_web_metrics: &AppFlowyWebMetrics,
+  bincnote_web_metrics: &BincNoteWebMetrics,
   server: Data<RealtimeServerAddr>,
   user: RealtimeUser,
   collab_storage: Arc<CollabAccessControlStorage>,
@@ -283,7 +283,7 @@ async fn duplicate_database(
     };
     let workspace_database_id = Uuid::parse_str(workspace_database.collab.object_id())?;
     update_workspace_database_data(
-      appflowy_web_metrics,
+      bincnote_web_metrics,
       server.clone(),
       user.clone(),
       workspace_id,

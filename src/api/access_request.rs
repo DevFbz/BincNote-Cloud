@@ -60,7 +60,7 @@ async fn post_access_request_handler(
   let request_id = create_access_request(
     &state.pg_pool,
     state.mailer.clone(),
-    &state.config.appflowy_web_url,
+    &state.config.bincnote_web_url,
     workspace_id,
     view_id,
     uid,
@@ -88,7 +88,7 @@ async fn post_approve_access_request_handler(
     &state.pg_pool,
     state.workspace_access_control.clone(),
     state.mailer.clone(),
-    &state.config.appflowy_web_url,
+    &state.config.bincnote_web_url,
     access_request_id,
     uid,
     is_approved,

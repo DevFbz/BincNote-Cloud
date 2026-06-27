@@ -17,7 +17,7 @@ use yrs::updates::encoder::Encode;
 
 use access_control::workspace::WorkspaceAccessControl;
 use app_error::AppError;
-use appflowy_collaborate::collab::storage::CollabAccessControlStorage;
+use bincnote_collaborate::collab::storage::CollabAccessControlStorage;
 use database::file::s3_client_impl::S3BucketStorage;
 use database::pg_row::AFWorkspaceMemberRow;
 
@@ -353,7 +353,7 @@ pub async fn invite_workspace_members(
   inviter: &Uuid,
   workspace_id: &Uuid,
   invitations: Vec<WorkspaceMemberInvitation>,
-  appflowy_web_url: &str,
+  bincnote_web_url: &str,
 ) -> Result<(), AppError> {
   let mut txn = pg_pool
     .begin()
@@ -423,7 +423,7 @@ pub async fn invite_workspace_members(
     // Generate a link such that when clicked, the user is added to the workspace.
     let accept_url = format!(
       "{}/accept-invitation?invited_id={}",
-      appflowy_web_url, invite_id
+      bincnote_web_url, invite_id
     );
 
     if !invitation.skip_email_send {

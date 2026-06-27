@@ -20,7 +20,7 @@ where
   match serde_json::from_str::<JsonResponse<T>>(&payload) {
     Ok(data) => Ok(data.data),
     Err(_) => match serde_json::from_str::<AppResponseError>(&payload) {
-      Ok(af_cloud_err) => Err(error::Error::AppFlowyCloud(af_cloud_err)),
+      Ok(af_cloud_err) => Err(error::Error::BincNoteCloud(af_cloud_err)),
       Err(err) => Err(error::Error::Unhandled(format!(
         "Failed to parse JSON response: {:?}, Payload: {}",
         err, payload
@@ -41,7 +41,7 @@ async fn check_response(resp: reqwest::Response) -> Result<(), error::Error> {
     if cloud_err.code == ErrorCode::Ok {
       return Ok(());
     } else {
-      return Err(error::Error::AppFlowyCloud(cloud_err));
+      return Err(error::Error::BincNoteCloud(cloud_err));
     }
   };
 

@@ -18,30 +18,30 @@ async fn main() -> Result<()> {
   let target_dir = "./target";
   std::env::set_var("CARGO_TARGET_DIR", target_dir);
 
-  let appflowy_cloud_bin_name = "appflowy_cloud";
-  let worker_bin_name = "appflowy_worker";
+  let bincnote_cloud_bin_name = "bincnote_cloud";
+  let worker_bin_name = "bincnote_worker";
 
   // Step 1: Kill existing processes
-  kill_existing_process(appflowy_cloud_bin_name).await?;
+  kill_existing_process(bincnote_cloud_bin_name).await?;
   kill_existing_process(worker_bin_name).await?;
 
   // Step 2: Start servers sequentially
-  println!("Starting {} server...", appflowy_cloud_bin_name);
-  let mut appflowy_cloud_cmd = spawn_server(
+  println!("Starting {} server...", bincnote_cloud_bin_name);
+  let mut bincnote_cloud_cmd = spawn_server(
     "cargo",
     &["run", "--features", "history"],
-    appflowy_cloud_bin_name,
+    bincnote_cloud_bin_name,
     disable_log,
   )?;
-  wait_for_readiness(appflowy_cloud_bin_name).await?;
+  wait_for_readiness(bincnote_cloud_bin_name).await?;
 
   println!("Starting {} server...", worker_bin_name);
-  let mut appflowy_worker_cmd = spawn_server(
+  let mut bincnote_worker_cmd = spawn_server(
     "cargo",
     &[
       "run",
       "--manifest-path",
-      "./services/appflowy-worker/Cargo.toml",
+      "./services/bincnote-worker/Cargo.toml",
     ],
     worker_bin_name,
     disable_log,
@@ -67,10 +67,10 @@ async fn main() -> Result<()> {
 
   // Step 4: Monitor all processes
   select! {
-      status = appflowy_cloud_cmd.wait() => {
+      status = bincnote_cloud_cmd.wait() => {
           handle_process_exit(status?, worker_bin_name)?;
       },
-      status = appflowy_worker_cmd.wait() => {
+      status = bincnote_worker_cmd.wait() => {
           handle_process_exit(status?, worker_bin_name)?;
       },
       status = async {

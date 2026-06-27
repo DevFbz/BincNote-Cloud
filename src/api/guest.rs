@@ -41,7 +41,7 @@ async fn list_shared_views_handler(
   Err(
     AppResponseError::new(
       ErrorCode::FeatureNotAvailable,
-      "this version of appflowy cloud server does not support guest editors",
+      "this version of bincnote cloud server does not support guest editors",
     )
     .into(),
   )
@@ -56,7 +56,7 @@ async fn put_shared_view_handler(
   Err(
     AppResponseError::new(
       ErrorCode::FeatureNotAvailable,
-      "this version of appflowy cloud server does not support guest editors",
+      "this version of bincnote cloud server does not support guest editors",
     )
     .into(),
   )
@@ -70,7 +70,7 @@ async fn get_shared_view_handler(
   Err(
     AppResponseError::new(
       ErrorCode::FeatureNotAvailable,
-      "this version of appflowy cloud server does not support guest editors",
+      "this version of bincnote cloud server does not support guest editors",
     )
     .into(),
   )
@@ -85,7 +85,7 @@ async fn revoke_shared_view_access_handler(
   Err(
     AppResponseError::new(
       ErrorCode::FeatureNotAvailable,
-      "this version of appflowy cloud server does not support guest editors",
+      "this version of bincnote cloud server does not support guest editors",
     )
     .into(),
   )

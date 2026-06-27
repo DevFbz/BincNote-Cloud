@@ -1,4 +1,4 @@
-use appflowy_ai_client::dto::{CompleteTextParams, CompletionMetadata, CompletionType};
+use bincnote_ai_client::dto::{CompleteTextParams, CompletionMetadata, CompletionType};
 use client_api_test::{ai_test_enabled, collect_completion_v2, TestClient};
 
 #[tokio::test]

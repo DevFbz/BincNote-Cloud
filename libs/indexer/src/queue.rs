@@ -10,7 +10,7 @@ use tracing::error;
 
 pub const INDEX_TASK_STREAM_NAME: &str = "index_collab_task_stream";
 const INDEXER_WORKER_GROUP_NAME: &str = "indexer_worker_group";
-const INDEXER_CONSUMER_NAME: &str = "appflowy_worker";
+const INDEXER_CONSUMER_NAME: &str = "bincnote_worker";
 
 impl TryFrom<&StreamId> for UnindexedCollabTask {
   type Error = IndexerError;

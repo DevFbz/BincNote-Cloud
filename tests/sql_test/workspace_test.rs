@@ -14,7 +14,7 @@ async fn insert_collab_sql_test(pool: PgPool) {
 
   let user_uuid = uuid::Uuid::new_v4();
   let name = user_uuid.to_string();
-  let email = format!("{}@appflowy.io", name);
+  let email = format!("{}@bincnote.io", name);
   let user = create_test_user(&pool, user_uuid, &email, &name)
     .await
     .unwrap();
@@ -65,7 +65,7 @@ async fn insert_bulk_collab_sql_test(pool: PgPool) {
 
   let user_uuid = uuid::Uuid::new_v4();
   let name = user_uuid.to_string();
-  let email = format!("{}@appflowy.io", name);
+  let email = format!("{}@bincnote.io", name);
   let user = create_test_user(&pool, user_uuid, &email, &name)
     .await
     .unwrap();
@@ -133,7 +133,7 @@ async fn test_bulk_insert_empty_collab_list(pool: PgPool) {
   setup_db(&pool).await.unwrap();
 
   let user_uuid = uuid::Uuid::new_v4();
-  let user = create_test_user(&pool, user_uuid, "test@appflowy.io", "test_user")
+  let user = create_test_user(&pool, user_uuid, "test@bincnote.io", "test_user")
     .await
     .unwrap();
 
@@ -155,7 +155,7 @@ async fn test_bulk_insert_duplicate_oid_partition_key(pool: PgPool) {
   setup_db(&pool).await.unwrap();
 
   let user_uuid = uuid::Uuid::new_v4();
-  let user = create_test_user(&pool, user_uuid, "test@appflowy.io", "test_user")
+  let user = create_test_user(&pool, user_uuid, "test@bincnote.io", "test_user")
     .await
     .unwrap();
 
@@ -194,7 +194,7 @@ async fn test_batch_insert_comparison(pool: PgPool) {
   setup_db(&pool).await.unwrap();
 
   let user_uuid = uuid::Uuid::new_v4();
-  let user = create_test_user(&pool, user_uuid, "test@appflowy.io", "test_user")
+  let user = create_test_user(&pool, user_uuid, "test@bincnote.io", "test_user")
     .await
     .unwrap();
 

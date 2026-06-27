@@ -35,7 +35,7 @@ jobs:
       - uses: Swatinem/rust-cache@v2
         with:
           workspaces: |
-            AppFlowy-Cloud
+            BincNote-Cloud
           key: ${{ runner.os }}-cargo-clippy-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
             ${{ runner.os }}-cargo-clippy-

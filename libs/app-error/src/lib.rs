@@ -3,8 +3,8 @@ pub mod gotrue;
 
 #[cfg(feature = "gotrue_error")]
 use crate::gotrue::GoTrueError;
-#[cfg(feature = "appflowy_ai_error")]
-use appflowy_ai_client::error::AIError;
+#[cfg(feature = "bincnote_ai_error")]
+use bincnote_ai_client::error::AIError;
 use reqwest::StatusCode;
 use serde::Serialize;
 use std::error::Error;
@@ -507,7 +507,7 @@ impl actix_web::error::ResponseError for AppError {
   }
 }
 
-#[cfg(feature = "appflowy_ai_error")]
+#[cfg(feature = "bincnote_ai_error")]
 impl From<AIError> for AppError {
   fn from(err: AIError) -> Self {
     match err {
@@ -521,7 +521,7 @@ impl From<AIError> for AppError {
   }
 }
 
-#[cfg(feature = "appflowy_ai_error")]
+#[cfg(feature = "bincnote_ai_error")]
 impl From<async_openai::error::OpenAIError> for AppError {
   fn from(err: async_openai::error::OpenAIError) -> Self {
     match &err {

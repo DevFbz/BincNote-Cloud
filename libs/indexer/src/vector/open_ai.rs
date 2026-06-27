@@ -1,5 +1,5 @@
 use app_error::AppError;
-use appflowy_ai_client::dto::EmbeddingModel;
+use bincnote_ai_client::dto::EmbeddingModel;
 use async_openai::config::{AzureConfig, Config, OpenAIConfig};
 use async_openai::types::{CreateEmbeddingRequest, CreateEmbeddingResponse};
 use async_openai::Client;

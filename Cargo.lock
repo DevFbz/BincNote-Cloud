@@ -530,7 +530,7 @@ version = "0.1.0"
 dependencies = [
  "actix-web",
  "anyhow",
- "appflowy-ai-client",
+ "bincnote-ai-client",
  "async-openai",
  "bincode",
  "getrandom 0.2.15",
@@ -549,11 +549,11 @@ dependencies = [
 ]
 
 [[package]]
-name = "appflowy-ai-client"
+name = "bincnote-ai-client"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "appflowy-ai-client",
+ "bincnote-ai-client",
  "bytes",
  "futures",
  "infra",
@@ -570,7 +570,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "appflowy-cloud"
+name = "bincnote-cloud"
 version = "0.1.0"
 dependencies = [
  "access-control",
@@ -585,8 +585,8 @@ dependencies = [
  "actix-web-actors",
  "anyhow",
  "app-error",
- "appflowy-ai-client",
- "appflowy-collaborate",
+ "bincnote-ai-client",
+ "bincnote-collaborate",
  "assert-json-diff",
  "async-openai",
  "async-stream",
@@ -666,7 +666,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "appflowy-collaborate"
+name = "bincnote-collaborate"
 version = "0.1.0"
 dependencies = [
  "access-control",
@@ -721,12 +721,12 @@ dependencies = [
 ]
 
 [[package]]
-name = "appflowy-worker"
+name = "bincnote-worker"
 version = "0.1.0"
 dependencies = [
  "anyhow",
  "app-error",
- "appflowy-collaborate",
+ "bincnote-collaborate",
  "async_zip",
  "aws-sdk-s3",
  "axum",
@@ -1896,7 +1896,7 @@ dependencies = [
 [[package]]
 name = "collab"
 version = "0.2.0"
-source = "git+https://github.com/AppFlowy-IO/AppFlowy-Collab?rev=4a0e2cc07f50f17d1b6605c579e622a431e94998#4a0e2cc07f50f17d1b6605c579e622a431e94998"
+source = "git+https://github.com/BincNote-IO/BincNote-Collab?rev=4a0e2cc07f50f17d1b6605c579e622a431e94998#4a0e2cc07f50f17d1b6605c579e622a431e94998"
 dependencies = [
  "anyhow",
  "arc-swap",
@@ -1921,7 +1921,7 @@ dependencies = [
 [[package]]
 name = "collab-database"
 version = "0.2.0"
-source = "git+https://github.com/AppFlowy-IO/AppFlowy-Collab?rev=4a0e2cc07f50f17d1b6605c579e622a431e94998#4a0e2cc07f50f17d1b6605c579e622a431e94998"
+source = "git+https://github.com/BincNote-IO/BincNote-Collab?rev=4a0e2cc07f50f17d1b6605c579e622a431e94998#4a0e2cc07f50f17d1b6605c579e622a431e94998"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -1961,7 +1961,7 @@ dependencies = [
 [[package]]
 name = "collab-document"
 version = "0.2.0"
-source = "git+https://github.com/AppFlowy-IO/AppFlowy-Collab?rev=4a0e2cc07f50f17d1b6605c579e622a431e94998#4a0e2cc07f50f17d1b6605c579e622a431e94998"
+source = "git+https://github.com/BincNote-IO/BincNote-Collab?rev=4a0e2cc07f50f17d1b6605c579e622a431e94998#4a0e2cc07f50f17d1b6605c579e622a431e94998"
 dependencies = [
  "anyhow",
  "arc-swap",
@@ -1982,7 +1982,7 @@ dependencies = [
 [[package]]
 name = "collab-entity"
 version = "0.2.0"
-source = "git+https://github.com/AppFlowy-IO/AppFlowy-Collab?rev=4a0e2cc07f50f17d1b6605c579e622a431e94998#4a0e2cc07f50f17d1b6605c579e622a431e94998"
+source = "git+https://github.com/BincNote-IO/BincNote-Collab?rev=4a0e2cc07f50f17d1b6605c579e622a431e94998#4a0e2cc07f50f17d1b6605c579e622a431e94998"
 dependencies = [
  "anyhow",
  "bytes",
@@ -2002,7 +2002,7 @@ dependencies = [
 [[package]]
 name = "collab-folder"
 version = "0.2.0"
-source = "git+https://github.com/AppFlowy-IO/AppFlowy-Collab?rev=4a0e2cc07f50f17d1b6605c579e622a431e94998#4a0e2cc07f50f17d1b6605c579e622a431e94998"
+source = "git+https://github.com/BincNote-IO/BincNote-Collab?rev=4a0e2cc07f50f17d1b6605c579e622a431e94998#4a0e2cc07f50f17d1b6605c579e622a431e94998"
 dependencies = [
  "anyhow",
  "arc-swap",
@@ -2024,7 +2024,7 @@ dependencies = [
 [[package]]
 name = "collab-importer"
 version = "0.1.0"
-source = "git+https://github.com/AppFlowy-IO/AppFlowy-Collab?rev=4a0e2cc07f50f17d1b6605c579e622a431e94998#4a0e2cc07f50f17d1b6605c579e622a431e94998"
+source = "git+https://github.com/BincNote-IO/BincNote-Collab?rev=4a0e2cc07f50f17d1b6605c579e622a431e94998#4a0e2cc07f50f17d1b6605c579e622a431e94998"
 dependencies = [
  "anyhow",
  "async-recursion",
@@ -2132,7 +2132,7 @@ dependencies = [
 [[package]]
 name = "collab-user"
 version = "0.2.0"
-source = "git+https://github.com/AppFlowy-IO/AppFlowy-Collab?rev=4a0e2cc07f50f17d1b6605c579e622a431e94998#4a0e2cc07f50f17d1b6605c579e622a431e94998"
+source = "git+https://github.com/BincNote-IO/BincNote-Collab?rev=4a0e2cc07f50f17d1b6605c579e622a431e94998#4a0e2cc07f50f17d1b6605c579e622a431e94998"
 dependencies = [
  "anyhow",
  "collab",
@@ -3866,7 +3866,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "app-error",
- "appflowy-ai-client",
+ "bincnote-ai-client",
  "async-openai",
  "async-trait",
  "chrono",
@@ -6298,7 +6298,7 @@ dependencies = [
  "actix-web",
  "anyhow",
  "app-error",
- "appflowy-ai-client",
+ "bincnote-ai-client",
  "bytes",
  "chrono",
  "collab-entity",

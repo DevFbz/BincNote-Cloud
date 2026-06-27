@@ -386,6 +386,6 @@ fn get_host_from_request(req: &HttpRequest) -> String {
     .headers()
     .get("X-Host")
     .and_then(|h| h.to_str().ok())
-    .unwrap_or("https://beta.appflowy.cloud")
+    .unwrap_or("https://beta.bincnote.cloud")
     .to_string()
 }

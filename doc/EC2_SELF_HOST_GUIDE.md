@@ -1,6 +1,6 @@
-# Installing AppFlowy-Cloud on an AWS EC2 Ubuntu Instance
+# Installing BincNote-Cloud on an AWS EC2 Ubuntu Instance
 
-This guide provides a step-by-step process for setting up an EC2 instance, installing Docker on Ubuntu, and deploying AppFlowy-Cloud, along with some optional Docker maintenance commands.
+This guide provides a step-by-step process for setting up an EC2 instance, installing Docker on Ubuntu, and deploying BincNote-Cloud, along with some optional Docker maintenance commands.
 
 Only for demonstration purposes, we will be using a free-tier EC2 instance. However, we recommend using a paid instance for production deployments.
 If you have any questions, please feel free to reach out to us on [Discord](https://discord.gg/9Q2xaN37tV).
@@ -39,13 +39,13 @@ If you have any questions, please feel free to reach out to us on [Discord](http
    ```
 - Logout(exit/Ctrl-D) and log back in to take effect.
 
-## Installing AppFlowy-Cloud
+## Installing BincNote-Cloud
 
 1. **Clone Repository**:
-   Access your EC2 instance and clone the AppFlowy-Cloud repository:
+   Access your EC2 instance and clone the BincNote-Cloud repository:
    ```bash
-   git clone https://github.com/AppFlowy-IO/AppFlowy-Cloud
-   cd AppFlowy-Cloud
+   git clone https://github.com/BincNote-IO/BincNote-Cloud
+   cd BincNote-Cloud
    ```
 
 2. **Configuration Setup**:
@@ -64,9 +64,9 @@ If you have any questions, please feel free to reach out to us on [Discord](http
    By default, no authentication is needed to sign in.
 
 4. **Authentication Setup**:
-    Configure `docker-compose.yml` by removing unneeded services such as `tunnel` (cloudflare tunnel). More details: [here](https://github.com/AppFlowy-IO/AppFlowy-Cloud/blob/main/doc/DEPLOYMENT.md#3-optional-services)
+    Configure `docker-compose.yml` by removing unneeded services such as `tunnel` (cloudflare tunnel). More details: [here](https://github.com/BincNote-IO/BincNote-Cloud/blob/main/doc/DEPLOYMENT.md#3-optional-services)
 
-5. **Start AppFlowy Services**:
+5. **Start BincNote Services**:
    Launch the services using Docker Compose:
    ```bash
    docker compose up -d
@@ -79,33 +79,33 @@ If you have any questions, please feel free to reach out to us on [Discord](http
    ```
 
 ## Post Install
-### Exposing your AppFlowy-Cloud
+### Exposing your BincNote-Cloud
 
-After installing AppFlowy-Cloud, the server will be serving at port 80 (http) and 443 (http).
+After installing BincNote-Cloud, the server will be serving at port 80 (http) and 443 (http).
 You might need to add Inbound Rule to expose the port.
 - To do so, go to EC2 -> Instances -> your instance id -> Security -> Click on the Security Group
 - Under Inbound Rules, Click "Edit inbound rules"
 - Click "Add Rule", select either http or https(if you have configured SSL Cert)
   For example:
   ![img_1.png](../assets/images/security_group.png)
-- Once done, you should be able to see the AppFlowy-Cloud admin page at `http://<your_ec2_host>/web/login`
+- Once done, you should be able to see the BincNote-Cloud admin page at `http://<your_ec2_host>/web/login`
 
 Note: There are certain risk involved in exposing ports in your EC2 Instances, this guide is for demonstration purposes and should not be used for production.
 You might want to limit IP to only trusted IP address, or use other strategies to mitigate risk.
 
-## Configuring Environment Secrets for AppFlowy-Cloud Client
+## Configuring Environment Secrets for BincNote-Cloud Client
 
-Once you've successfully set up AppFlowy Cloud on your server, the next step is to configure the environment secrets for the AppFlowy-Cloud client. These settings are crucial for the client to communicate with your self-hosted server.
+Once you've successfully set up BincNote Cloud on your server, the next step is to configure the environment secrets for the BincNote-Cloud client. These settings are crucial for the client to communicate with your self-hosted server.
 
 1. **Verify Server Functionality**:
-   - Ensure that your AppFlowy Cloud server is up and running without any issues.
+   - Ensure that your BincNote Cloud server is up and running without any issues.
 
 2. **Copy Configuration URLs**:
 
    - Obtain Public IPv4 DNS: Retrieve the Public IPv4 DNS address of your EC2 instance.
      ![IPv4 EC2](../assets/images/ipv4_ec2.png)
 
-   - Paste in Guide: Return to the [Building AppFlowy with a Self-hosted Server guide](https://docs.appflowy.io/docs/guides/appflowy/self-hosting-appflowy#step-2-building-appflowy-with-a-self-hosted-server) and paste this URL where required.
+   - Paste in Guide: Return to the [Building BincNote with a Self-hosted Server guide](https://docs.bincnote.io/docs/guides/bincnote/self-hosting-bincnote#step-2-building-bincnote-with-a-self-hosted-server) and paste this URL where required.
      For example, the URL might look like: `http://ec2-13-228-28-244.ap-southeast-1.compute.amazonaws.com`
 
 
@@ -137,11 +137,11 @@ These commands are helpful for Docker maintenance but use them with caution as t
 
 ## Q & A
 
-### 1.Troubleshooting Redirect Issues After OAuth Login in AppFlowy
+### 1.Troubleshooting Redirect Issues After OAuth Login in BincNote
 
-#### Issue: Inability to Redirect to AppFlowy Application After Login with Google/GitHub/Discord
+#### Issue: Inability to Redirect to BincNote Application After Login with Google/GitHub/Discord
 
-If you're encountering difficulties redirecting to the AppFlowy application after attempting to log in using Google, GitHub, or Discord OAuth, follow these steps for troubleshooting:
+If you're encountering difficulties redirecting to the BincNote application after attempting to log in using Google, GitHub, or Discord OAuth, follow these steps for troubleshooting:
 
 1. **Check OAuth Configuration for Google**:
    - Ensure `GOTRUE_EXTERNAL_GOOGLE_ENABLED` is set to `true`.

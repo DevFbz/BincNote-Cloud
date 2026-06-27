@@ -10,7 +10,7 @@ use serde::Deserialize;
 
 use crate::api::util::ai_model_from_header;
 use app_error::AppError;
-use appflowy_ai_client::dto::{
+use bincnote_ai_client::dto::{
   ChatQuestion, ChatQuestionQuery, CreateChatContext, MessageData, QuestionMetadata,
   RepeatedRelatedQuestion,
 };

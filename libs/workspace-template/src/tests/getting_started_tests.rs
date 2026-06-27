@@ -136,7 +136,7 @@ mod tests {
     replacements.insert("desktop_guide_view_id".to_string(), "1".to_string());
     replacements.insert("referenced_view_id_1".to_string(), "2".to_string());
     replacements.insert("referenced_view_id_2".to_string(), "3".to_string());
-    replacements.insert("value".to_string(), "appflowy".to_string());
+    replacements.insert("value".to_string(), "bincnote".to_string());
 
     replace_json_placeholders(&mut json_value, &replacements);
 
@@ -144,7 +144,7 @@ mod tests {
         "id": "1",
         "children": ["2", "3"],
         "attributes": {
-            "key": "appflowy"
+            "key": "bincnote"
         }
     });
 

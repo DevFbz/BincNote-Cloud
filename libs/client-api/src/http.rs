@@ -124,7 +124,7 @@ pub struct Client {
 pub(crate) type RefreshTokenSender = tokio::sync::oneshot::Sender<Result<(), AppResponseError>>;
 
 /// Hardcoded schema in the frontend application. Do not change this value.
-const DESKTOP_CALLBACK_URL: &str = "appflowy-flutter://login-callback";
+const DESKTOP_CALLBACK_URL: &str = "bincnote-flutter://login-callback";
 
 impl Client {
   /// Constructs a new `Client` instance.
@@ -275,9 +275,9 @@ impl Client {
   ///
   /// User will receive an email with a magic link to sign in.
   /// The redirect_to parameter is optional. If provided, the user will be redirected to the specified URL after signing in.
-  /// If not, the user will be redirected to the appflowy-flutter:// by default
+  /// If not, the user will be redirected to the bincnote-flutter:// by default
   ///
-  /// The redirect_to should be the scheme of the app, e.g., appflowy-flutter://
+  /// The redirect_to should be the scheme of the app, e.g., bincnote-flutter://
   #[instrument(level = "debug", skip_all, err)]
   pub async fn sign_in_with_magic_link(
     &self,
@@ -344,7 +344,7 @@ impl Client {
   }
 
   /// Attempts to sign in using a URL, extracting refresh_token from the URL.
-  /// It looks like, e.g., `appflowy-flutter://#access_token=...&expires_in=3600&provider_token=...&refresh_token=...&token_type=bearer`.
+  /// It looks like, e.g., `bincnote-flutter://#access_token=...&expires_in=3600&provider_token=...&refresh_token=...&token_type=bearer`.
   ///
   /// return a bool indicating if the user is new
   #[instrument(level = "debug", skip_all, err)]
@@ -409,10 +409,10 @@ impl Client {
   /// validate the availability of the specified OAuth provider. If the provider is available,
   /// it constructs and returns the OAuth URL. When the user opens the OAuth URL, it redirects to
   /// the corresponding provider's OAuth web page. After the user is authenticated, the browser will open
-  /// a deep link to the AppFlowy app (iOS, macOS, etc.), which will call [Client::sign_in_with_url] to sign in.
+  /// a deep link to the BincNote app (iOS, macOS, etc.), which will call [Client::sign_in_with_url] to sign in.
   ///
-  /// For example, the OAuth URL on Google looks like `https://appflowy.io/authorize?provider=google`.
-  /// The deep link looks like `appflowy-flutter://#access_token=...&expires_in=3600&provider_token=...&refresh_token=...&token_type=bearer`.
+  /// For example, the OAuth URL on Google looks like `https://bincnote.io/authorize?provider=google`.
+  /// The deep link looks like `bincnote-flutter://#access_token=...&expires_in=3600&provider_token=...&refresh_token=...&token_type=bearer`.
   ///
   ///
   /// # Parameters
@@ -467,7 +467,7 @@ impl Client {
   /// Generates a sign action link for the specified email address.
   /// This is only applicable if user token is with admin privilege.
   /// This action link is used on web browser to sign in. When user then click the action link in the browser,
-  /// which calls gotrue authentication server, which then redirects to the appflowy-flutter:// with the authentication token.
+  /// which calls gotrue authentication server, which then redirects to the bincnote-flutter:// with the authentication token.
   ///
   /// [Self::extract_sign_in_url] simulates the browser behavior to extract the sign in url.
   ///

@@ -213,7 +213,7 @@ async fn database_fields_crud() {
           (String::from("Multiselect"), json!(["social", "news"])),
           (my_num_field_id, json!(123)),
           (my_datetime_field_id, json!(1733210221)),
-          (my_url_field_id, json!("https://appflowy.io")),
+          (my_url_field_id, json!("https://bincnote.io")),
           (my_checkbox_field_id, json!(true)),
         ]),
         None,
@@ -246,7 +246,7 @@ async fn database_fields_crud() {
         "timezone": "UTC",
       }),
     );
-    assert_eq!(new_row_detail.cells["MyUrlField"], "https://appflowy.io");
+    assert_eq!(new_row_detail.cells["MyUrlField"], "https://bincnote.io");
     assert_eq!(new_row_detail.cells["MyCheckboxColumn"], true);
   }
 }

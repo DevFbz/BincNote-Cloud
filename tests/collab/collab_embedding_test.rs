@@ -9,16 +9,16 @@ async fn query_collab_embedding_after_create_test() {
   let object_id = Uuid::new_v4();
   let mut editor = empty_document_editor(&object_id);
   let contents = vec![
-    "AppFlowy is an open-source project.",
+    "BincNote is an open-source project.",
     "It is an alternative to tools like Notion.",
-    "AppFlowy provides full control of your data.",
+    "BincNote provides full control of your data.",
     "The project is built using Flutter for the frontend.",
-    "Rust powers AppFlowy's backend for safety and performance.",
-    "AppFlowy supports both personal and collaborative workflows.",
+    "Rust powers BincNote's backend for safety and performance.",
+    "BincNote supports both personal and collaborative workflows.",
     "It is customizable and self-hostable.",
-    "Users can create documents, databases, and workflows with AppFlowy.",
-    "The community contributes actively to AppFlowy's development.",
-    "AppFlowy aims to be fast, reliable, and feature-rich.",
+    "Users can create documents, databases, and workflows with BincNote.",
+    "The community contributes actively to BincNote's development.",
+    "BincNote aims to be fast, reliable, and feature-rich.",
   ];
   editor.insert_paragraphs(contents.into_iter().map(|s| s.to_string()).collect());
 
@@ -54,22 +54,22 @@ async fn document_full_sync_then_search_test() {
     .insert_view_to_general_space(
       &workspace_id,
       &object_id.to_string(),
-      "AppFlowy",
+      "BincNote",
       collab_folder::ViewLayout::Document,
     )
     .await;
 
   let contents = vec![
-    "AppFlowy is an open-source project.",
+    "BincNote is an open-source project.",
     "It is an alternative to tools like Notion.",
-    "AppFlowy provides full control of your data.",
+    "BincNote provides full control of your data.",
     "The project is built using Flutter for the frontend.",
-    "Rust powers AppFlowy's backend for safety and performance.",
-    "AppFlowy supports both personal and collaborative workflows.",
+    "Rust powers BincNote's backend for safety and performance.",
+    "BincNote supports both personal and collaborative workflows.",
     "It is customizable and self-hostable.",
-    "Users can create documents, databases, and workflows with AppFlowy.",
-    "The community contributes actively to AppFlowy's development.",
-    "AppFlowy aims to be fast, reliable, and feature-rich.",
+    "Users can create documents, databases, and workflows with BincNote.",
+    "The community contributes actively to BincNote's development.",
+    "BincNote aims to be fast, reliable, and feature-rich.",
   ];
   local_document.insert_paragraphs(contents.into_iter().map(|s| s.to_string()).collect());
   let encode_collab = local_document.encode_collab();
@@ -98,5 +98,5 @@ async fn document_full_sync_then_search_test() {
     .wait_unit_get_search_result(&workspace_id, "workflows", 1, 200, Some(0.3))
     .await;
   assert_eq!(items.len(), 1);
-  assert_eq!(items[0].preview, Some("AppFlowy is an open-source project.It is an alternative to tools like Notion.AppFlowy provides full control of your data.The project is built using Flutter for the frontend.Rust powers AppFlowy's back".to_string()));
+  assert_eq!(items[0].preview, Some("BincNote is an open-source project.It is an alternative to tools like Notion.BincNote provides full control of your data.The project is built using Flutter for the frontend.Rust powers BincNote's back".to_string()));
 }

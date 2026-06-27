@@ -6,7 +6,7 @@ edition = "2021"
 [dependencies]
 async-openai.workspace = true
 tracing.workspace = true
-app-error = { workspace = true, features = ["appflowy_ai_error"] }
+app-error = { workspace = true, features = ["bincnote_ai_error"] }
 serde_json.workspace = true
 serde.workspace = true
 schemars = "0.8.22"

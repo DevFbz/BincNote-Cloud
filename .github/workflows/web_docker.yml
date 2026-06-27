@@ -1,12 +1,12 @@
-name: AppFlowy Web image build and push
+name: BincNote Web image build and push
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'AppFlowy Web version'
+        description: 'BincNote Web version'
         required: true
 env:
-  IMAGE_NAME: ${{ secrets.DOCKER_HUB_USERNAME }}/appflowy_web
+  IMAGE_NAME: ${{ secrets.DOCKER_HUB_USERNAME }}/bincnote_web
 jobs:
   build:
     runs-on: ${{ matrix.os }}

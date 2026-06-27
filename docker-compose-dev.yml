@@ -34,7 +34,7 @@ services:
 
   gotrue:
     restart: on-failure
-    image: appflowyinc/gotrue:${GOTRUE_VERSION:-latest}
+    image: bincnoteinc/gotrue:${GOTRUE_VERSION:-latest}
     depends_on:
       postgres:
         condition: service_healthy
@@ -43,7 +43,7 @@ services:
       - GOTRUE_ADMIN_EMAIL=${GOTRUE_ADMIN_EMAIL}
       - GOTRUE_ADMIN_PASSWORD=${GOTRUE_ADMIN_PASSWORD}
       - GOTRUE_DISABLE_SIGNUP=${GOTRUE_DISABLE_SIGNUP:-false}
-      - GOTRUE_SITE_URL=appflowy-flutter://                           # redirected to AppFlowy application
+      - GOTRUE_SITE_URL=bincnote-flutter://                           # redirected to BincNote application
       - URI_ALLOW_LIST=*                                              # adjust restrict if necessary
       - GOTRUE_JWT_SECRET=${GOTRUE_JWT_SECRET}                        # authentication secret
       - GOTRUE_JWT_EXP=${GOTRUE_JWT_EXP}
@@ -57,9 +57,9 @@ services:
       - GOTRUE_MAILER_URLPATHS_CONFIRMATION=/verify
       - GOTRUE_SMTP_HOST=${GOTRUE_SMTP_HOST}                              # e.g. smtp.gmail.com
       - GOTRUE_SMTP_PORT=${GOTRUE_SMTP_PORT}                              # e.g. 465
-      - GOTRUE_SMTP_USER=${GOTRUE_SMTP_USER}                              # email sender, e.g. noreply@appflowy.io
+      - GOTRUE_SMTP_USER=${GOTRUE_SMTP_USER}                              # email sender, e.g. noreply@bincnote.io
       - GOTRUE_SMTP_PASS=${GOTRUE_SMTP_PASS}                              # email password
-      - GOTRUE_SMTP_ADMIN_EMAIL=${GOTRUE_SMTP_ADMIN_EMAIL}                # email with admin privileges e.g. internal@appflowy.io
+      - GOTRUE_SMTP_ADMIN_EMAIL=${GOTRUE_SMTP_ADMIN_EMAIL}                # email with admin privileges e.g. internal@bincnote.io
       - GOTRUE_SMTP_MAX_FREQUENCY=${GOTRUE_SMTP_MAX_FREQUENCY:-1ns}       # set to 1ns for running tests
       - GOTRUE_RATE_LIMIT_EMAIL_SENT=${GOTRUE_RATE_LIMIT_EMAIL_SENT:-100} # number of email sendable per minute
       - GOTRUE_MAILER_AUTOCONFIRM=${GOTRUE_MAILER_AUTOCONFIRM:-false}     # change this to true to skip email confirmation

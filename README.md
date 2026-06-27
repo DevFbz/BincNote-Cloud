@@ -1,25 +1,25 @@
 <p align="center">
     <picture>
-        <source srcset="assets/logos/appflowy_logo_white.svg" media="(prefers-color-scheme: dark)"/>
-        <img src="assets/logos/appflowy_logo_black.svg"  width="500" height="200" />
+        <source srcset="assets/logos/bincnote_logo_white.svg" media="(prefers-color-scheme: dark)"/>
+        <img src="assets/logos/bincnote_logo_black.svg"  width="500" height="200" />
     </picture>
 </p>
 
 <h4 align="center">
-    <a href="https://discord.gg/9Q2xaN37tV"><img src="https://img.shields.io/badge/AppFlowy.IO-discord-orange"></a>
+    <a href="https://discord.gg/9Q2xaN37tV"><img src="https://img.shields.io/badge/BincNote.IO-discord-orange"></a>
     <a href="https://opensource.org/licenses/AGPL-3.0"><img src="https://img.shields.io/badge/license-AGPL-purple.svg" alt="License: AGPL"></a>
 </h4>
 
 <p align="center">
-    <a href="https://www.appflowy.com"><b>Website</b></a> •
-    <a href="https://twitter.com/appflowy"><b>Twitter</b></a>
+    <a href="https://www.bincnote.com"><b>Website</b></a> •
+    <a href="https://twitter.com/bincnote"><b>Twitter</b></a>
 </p>
 
-<p align="center">⚡ The AppFlowy Cloud written with Rust 🦀</p>
+<p align="center">⚡ The BincNote Cloud written with Rust 🦀</p>
 
-# AppFlowy Cloud
+# BincNote Cloud
 
-AppFlowy Cloud is part of the AppFlowy ecosystem, offering secure user authentication, file storage,
+BincNote Cloud is part of the BincNote ecosystem, offering secure user authentication, file storage,
 and real-time WebSocket communication for an efficient and collaborative user experience.
 
 ## Table of Contents
@@ -53,10 +53,10 @@ You'll need to install:
 ./script/run_local_server.sh
 ```
 
-This process will execute all the dependencies and start the AppFlowy-Cloud server. Alternatively,
-you have the option to run the AppFlowy-Cloud server independently
+This process will execute all the dependencies and start the BincNote-Cloud server. Alternatively,
+you have the option to run the BincNote-Cloud server independently
 
-### Run the AppFlowy-Cloud
+### Run the BincNote-Cloud
 
 1. Run the dependency servers
 
@@ -95,7 +95,7 @@ cargo test
 ## 🐞Debugging
 
 Effective debugging is essential for maintaining a healthy application. Here are some tools and commands to help you
-troubleshoot issues in various components of the AppFlowy cloud server:
+troubleshoot issues in various components of the BincNote cloud server:
 
 ### Postgres
 

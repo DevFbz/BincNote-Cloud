@@ -6,8 +6,8 @@ mod multiple_part_test;
 mod put_and_get;
 mod usage;
 
-use appflowy_cloud::application::get_aws_s3_client;
-use appflowy_cloud::config::config::S3Setting;
+use bincnote_cloud::application::get_aws_s3_client;
+use bincnote_cloud::config::config::S3Setting;
 use database::file::s3_client_impl::AwsS3BucketClientImpl;
 use lazy_static::lazy_static;
 use secrecy::Secret;
@@ -21,7 +21,7 @@ lazy_static! {
   pub static ref LOCALHOST_MINIO_SECRET_KEY: Cow<'static, str> =
     get_env_var("LOCALHOST_MINIO_SECRET_KEY", "minioadmin");
   pub static ref LOCALHOST_MINIO_BUCKET_NAME: Cow<'static, str> =
-    get_env_var("LOCALHOST_MINIO_BUCKET_NAME", "appflowy");
+    get_env_var("LOCALHOST_MINIO_BUCKET_NAME", "bincnote");
 }
 
 pub struct TestBucket(pub AwsS3BucketClientImpl);

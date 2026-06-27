@@ -33,7 +33,7 @@ async fn recv_updates_without_permission_test() {
 
   // Edit the collab from client 1 and then the server will broadcast to client 2. But the client 2
   // is not the member of the collab, so the client 2 will not receive the update.
-  client_1.insert_into(&object_id, "name", "AppFlowy").await;
+  client_1.insert_into(&object_id, "name", "BincNote").await;
   client_1
     .wait_object_sync_complete(&object_id)
     .await
@@ -73,14 +73,14 @@ async fn recv_updates_without_permission_test() {
 //     .unwrap()
 //     .collab
 //     .write().await
-//     .insert("name", "AppFlowy");
+//     .insert("name", "BincNote");
 //   client_1
 //     .wait_object_sync_complete(&object_id)
 //     .await
 //     .unwrap();
 //
 //   let expected = json!({
-//     "name": "AppFlowy"
+//     "name": "BincNote"
 //   });
 //   assert_client_collab_within_secs(&mut client_2, &object_id, "name", expected.clone(), 60).await;
 //   assert_server_collab(
@@ -111,7 +111,7 @@ async fn recv_updates_without_permission_test() {
 //     .unwrap()
 //     .collab
 //     .write().await
-//     .insert("name", "AppFlowy");
+//     .insert("name", "BincNote");
 //   client_1
 //     .wait_object_sync_complete(&object_id)
 //     .await
@@ -120,7 +120,7 @@ async fn recv_updates_without_permission_test() {
 //
 //   //
 //   let expected = json!({
-//     "name": "AppFlowy"
+//     "name": "BincNote"
 //   });
 //   assert_server_collab(
 //     &workspace_id,
@@ -174,12 +174,12 @@ async fn edit_collab_with_readonly_permission_test() {
 
   // client 2 edit the collab and then the server will reject the update which mean the
   // collab in the server will not be updated.
-  client_2.insert_into(&object_id, "name", "AppFlowy").await;
+  client_2.insert_into(&object_id, "name", "BincNote").await;
   assert_client_collab_include_value(
     &mut client_2,
     &object_id,
     json!({
-      "name": "AppFlowy"
+      "name": "BincNote"
     }),
   )
   .await
@@ -219,14 +219,14 @@ async fn edit_collab_with_read_and_write_permission_test() {
     .await;
 
   // client 2 edit the collab and then the server will broadcast the update
-  client_2.insert_into(&object_id, "name", "AppFlowy").await;
+  client_2.insert_into(&object_id, "name", "BincNote").await;
   client_2
     .wait_object_sync_complete(&object_id)
     .await
     .unwrap();
 
   let expected = json!({
-    "name": "AppFlowy"
+    "name": "BincNote"
   });
   assert_client_collab_include_value(&mut client_2, &object_id, expected.clone())
     .await
@@ -266,10 +266,10 @@ async fn edit_collab_with_full_access_permission_test() {
     .await;
 
   // client 2 edit the collab and then the server will broadcast the update
-  client_2.insert_into(&object_id, "name", "AppFlowy").await;
+  client_2.insert_into(&object_id, "name", "BincNote").await;
 
   let expected = json!({
-    "name": "AppFlowy"
+    "name": "BincNote"
   });
   client_2
     .wait_object_sync_complete(&object_id)

@@ -13,10 +13,10 @@ use super::{
 
 pub async fn get_user_owned_workspaces(
   access_token: &str,
-  appflowy_cloud_base_url: &str,
+  bincnote_cloud_base_url: &str,
 ) -> Result<Vec<AFWorkspace>, Error> {
-  let user_profile = get_user_profile(access_token, appflowy_cloud_base_url).await?;
-  let owned_workspaces = get_user_workspaces(access_token, appflowy_cloud_base_url)
+  let user_profile = get_user_profile(access_token, bincnote_cloud_base_url).await?;
+  let owned_workspaces = get_user_workspaces(access_token, bincnote_cloud_base_url)
     .await?
     .into_iter()
     .filter(|w| w.owner_uid == user_profile.uid)
@@ -26,11 +26,11 @@ pub async fn get_user_owned_workspaces(
 
 pub async fn get_user_workspaces(
   access_token: &str,
-  appflowy_cloud_base_url: &str,
+  bincnote_cloud_base_url: &str,
 ) -> Result<Vec<AFWorkspace>, Error> {
   let http_client = reqwest::Client::new();
   let resp = http_client
-    .get(format!("{}/api/workspace", appflowy_cloud_base_url))
+    .get(format!("{}/api/workspace", bincnote_cloud_base_url))
     .header("Authorization", format!("Bearer {}", access_token))
     .send()
     .await?;
@@ -40,11 +40,11 @@ pub async fn get_user_workspaces(
 
 pub async fn get_user_workspace_limit(
   access_token: &str,
-  appflowy_cloud_base_url: &str,
+  bincnote_cloud_base_url: &str,
 ) -> Result<UserUsageLimit, Error> {
   let http_client = reqwest::Client::new();
   let resp = http_client
-    .get(format!("{}/api/user/limit", appflowy_cloud_base_url))
+    .get(format!("{}/api/user/limit", bincnote_cloud_base_url))
     .header("Authorization", format!("Bearer {}", access_token))
     .send()
     .await?;
@@ -54,17 +54,17 @@ pub async fn get_user_workspace_limit(
 
 pub async fn get_user_workspace_usages(
   access_token: &str,
-  appflowy_cloud_base_url: &str,
+  bincnote_cloud_base_url: &str,
 ) -> Result<Vec<WorkspaceUsageLimits>, Error> {
-  let user_workspaces = get_user_owned_workspaces(access_token, appflowy_cloud_base_url).await?;
+  let user_workspaces = get_user_owned_workspaces(access_token, bincnote_cloud_base_url).await?;
 
   let mut workspace_usages: Vec<WorkspaceUsageLimits> = Vec::with_capacity(user_workspaces.len());
   for user_workspace in user_workspaces {
     let workspace_id = user_workspace.workspace_id.to_string();
     let members =
-      get_workspace_members(&workspace_id, access_token, appflowy_cloud_base_url).await?;
+      get_workspace_members(&workspace_id, access_token, bincnote_cloud_base_url).await?;
     let total_blob_size =
-      get_user_workspace_blob_usage(&workspace_id, access_token, appflowy_cloud_base_url)
+      get_user_workspace_blob_usage(&workspace_id, access_token, bincnote_cloud_base_url)
         .await
         .map(|u| human_bytes::human_bytes(u.consumed_capacity as f64))
         .unwrap_or_else(|err| {
@@ -72,7 +72,7 @@ pub async fn get_user_workspace_usages(
           "0".to_owned()
         });
     let total_doc_size = {
-      get_user_workspace_doc_usage(&workspace_id, access_token, appflowy_cloud_base_url)
+      get_user_workspace_doc_usage(&workspace_id, access_token, bincnote_cloud_base_url)
         .await
         .map(|u| human_bytes::human_bytes(u.total_document_size as f64))
         .unwrap_or_else(|err| {
@@ -95,13 +95,13 @@ pub async fn get_user_workspace_usages(
 pub async fn get_workspace_members(
   workspace_id: &str,
   access_token: &str,
-  appflowy_cloud_base_url: &str,
+  bincnote_cloud_base_url: &str,
 ) -> Result<Vec<WorkspaceMember>, Error> {
   let http_client = reqwest::Client::new();
   let resp = http_client
     .get(format!(
       "{}/api/workspace/{}/member",
-      appflowy_cloud_base_url, workspace_id
+      bincnote_cloud_base_url, workspace_id
     ))
     .header("Authorization", format!("Bearer {}", access_token))
     .send()
@@ -112,13 +112,13 @@ pub async fn get_workspace_members(
 
 pub async fn get_pending_workspace_invitations(
   access_token: &str,
-  appflowy_cloud_base_url: &str,
+  bincnote_cloud_base_url: &str,
 ) -> Result<Vec<AFWorkspaceInvitation>, Error> {
   let http_client = reqwest::Client::new();
   let resp = http_client
     .get(format!(
       "{}/api/workspace/invite?status=Pending",
-      appflowy_cloud_base_url
+      bincnote_cloud_base_url
     ))
     .header("Authorization", format!("Bearer {}", access_token))
     .send()
@@ -129,13 +129,13 @@ pub async fn get_pending_workspace_invitations(
 
 pub async fn get_accepted_workspace_invitations(
   access_token: &str,
-  appflowy_cloud_base_url: &str,
+  bincnote_cloud_base_url: &str,
 ) -> Result<Vec<AFWorkspaceInvitation>, Error> {
   let http_client = reqwest::Client::new();
   let resp = http_client
     .get(format!(
       "{}/api/workspace/invite?status=Accepted",
-      appflowy_cloud_base_url
+      bincnote_cloud_base_url
     ))
     .header("Authorization", format!("Bearer {}", access_token))
     .send()
@@ -147,13 +147,13 @@ pub async fn get_accepted_workspace_invitations(
 async fn get_user_workspace_blob_usage(
   workspace_id: &str,
   access_token: &str,
-  appflowy_cloud_gateway_base_url: &str,
+  bincnote_cloud_gateway_base_url: &str,
 ) -> Result<WorkspaceBlobUsage, Error> {
   let http_client = reqwest::Client::new();
   let resp = http_client
     .get(format!(
       "{}/api/file_storage/{}/usage",
-      appflowy_cloud_gateway_base_url, workspace_id
+      bincnote_cloud_gateway_base_url, workspace_id
     ))
     .header("Authorization", format!("Bearer {}", access_token))
     .send()
@@ -165,12 +165,12 @@ async fn get_user_workspace_blob_usage(
 async fn get_user_workspace_doc_usage(
   workspace_id: &str,
   access_token: &str,
-  appflowy_cloud_base_url: &str,
+  bincnote_cloud_base_url: &str,
 ) -> Result<WorkspaceDocUsage, Error> {
   let http_client = reqwest::Client::new();
   let url = format!(
     "{}/api/workspace/{}/usage",
-    appflowy_cloud_base_url, workspace_id
+    bincnote_cloud_base_url, workspace_id
   );
   let resp = http_client
     .get(url)
@@ -183,10 +183,10 @@ async fn get_user_workspace_doc_usage(
 
 pub async fn get_user_profile(
   access_token: &str,
-  appflowy_cloud_base_url: &str,
+  bincnote_cloud_base_url: &str,
 ) -> Result<UserProfile, Error> {
   let http_client = reqwest::Client::new();
-  let url = format!("{}/api/user/profile", appflowy_cloud_base_url);
+  let url = format!("{}/api/user/profile", bincnote_cloud_base_url);
   let resp = http_client
     .get(url)
     .header("Authorization", format!("Bearer {}", access_token))
@@ -199,7 +199,7 @@ pub async fn invite_user_to_workspace(
   access_token: &str,
   workspace_id: &str,
   user_email: &str,
-  appflowy_cloud_base_url: &str,
+  bincnote_cloud_base_url: &str,
 ) -> Result<(), Error> {
   let invi = vec![WorkspaceMemberInvitation {
     email: user_email.to_string(),
@@ -211,7 +211,7 @@ pub async fn invite_user_to_workspace(
   let http_client = reqwest::Client::new();
   let url = format!(
     "{}/api/workspace/{}/invite",
-    appflowy_cloud_base_url, workspace_id
+    bincnote_cloud_base_url, workspace_id
   );
   let resp = http_client
     .post(url)
@@ -226,12 +226,12 @@ pub async fn invite_user_to_workspace(
 pub async fn leave_workspace(
   access_token: &str,
   workspace_id: &str,
-  appflowy_cloud_base_url: &str,
+  bincnote_cloud_base_url: &str,
 ) -> Result<(), Error> {
   let http_client = reqwest::Client::new();
   let url = format!(
     "{}/api/workspace/{}/leave",
-    appflowy_cloud_base_url, workspace_id
+    bincnote_cloud_base_url, workspace_id
   );
   let resp = http_client
     .post(url)
@@ -246,12 +246,12 @@ pub async fn leave_workspace(
 pub async fn accept_workspace_invitation(
   access_token: &str,
   invite_id: &str,
-  appflowy_cloud_base_url: &str,
+  bincnote_cloud_base_url: &str,
 ) -> Result<(), Error> {
   let http_client = reqwest::Client::new();
   let url = format!(
     "{}/api/workspace/accept-invite/{}",
-    appflowy_cloud_base_url, invite_id
+    bincnote_cloud_base_url, invite_id
   );
   let resp = http_client
     .post(url)
@@ -265,12 +265,12 @@ pub async fn accept_workspace_invitation(
 
 pub async fn verify_token_cloud(
   access_token: &str,
-  appflowy_cloud_base_url: &str,
+  bincnote_cloud_base_url: &str,
 ) -> Result<(), Error> {
   let http_client = reqwest::Client::new();
   let url = format!(
     "{}/api/user/verify/{}",
-    appflowy_cloud_base_url, access_token
+    bincnote_cloud_base_url, access_token
   );
   let resp = http_client
     .get(url)
@@ -283,10 +283,10 @@ pub async fn verify_token_cloud(
 
 pub async fn delete_current_user(
   access_token: &str,
-  appflowy_cloud_base_url: &str,
+  bincnote_cloud_base_url: &str,
 ) -> Result<(), Error> {
   let http_client = reqwest::Client::new();
-  let url = format!("{}/api/user", appflowy_cloud_base_url);
+  let url = format!("{}/api/user", bincnote_cloud_base_url);
   let resp = http_client
     .delete(url)
     .header("Authorization", format!("Bearer {}", access_token))

@@ -56,7 +56,7 @@ When a document is created or updated and requires immediate indexing:
 
 ```mermaid
 sequenceDiagram
-    participant App as AppFlowy
+    participant App as BincNote
     participant Scheduler as IndexerScheduler
     participant Indexer as DocumentIndexer
     participant Embedder as AFEmbedder
@@ -75,7 +75,7 @@ For non-urgent indexing, tasks are queued for background processing:
 
 ```mermaid
 sequenceDiagram
-    participant App as AppFlowy
+    participant App as BincNote
     participant Scheduler as IndexerScheduler
     participant Redis as Redis Queue
     participant Worker as Background Worker
@@ -160,7 +160,7 @@ fn split_text_into_chunks(
     // Create metadata for the chunks
     let metadata = json!({
       "id": object_id,
-      "source": "appflowy",
+      "source": "bincnote",
       "name": "document",
       "collab_type": collab_type
   });

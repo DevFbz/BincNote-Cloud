@@ -1,4 +1,4 @@
-name: AppFlowy-Cloud Stress Test
+name: BincNote-Cloud Stress Test
 
 on: [ pull_request ]
 
@@ -17,7 +17,7 @@ env:
 jobs:
   test:
     name: Collab Stress Tests
-    runs-on: self-hosted-appflowy3
+    runs-on: self-hosted-bincnote3
 
     steps:
       - name: Checkout Repository

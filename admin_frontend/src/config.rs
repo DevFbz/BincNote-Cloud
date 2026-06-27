@@ -6,7 +6,7 @@ pub struct Config {
   pub port: u16,
   pub redis_url: String,
   pub gotrue_url: String,
-  pub appflowy_cloud_url: String,
+  pub bincnote_cloud_url: String,
   pub oauth: OAuthConfig,
   pub path_prefix: String,
 }
@@ -27,12 +27,12 @@ impl Config {
         .map_err(|e| anyhow::anyhow!("failed to parse ADMIN_FRONTEND_PORT as u16, err: {}", e))?,
       redis_url: get_or_default("ADMIN_FRONTEND_REDIS_URL", "redis://localhost:6379"),
       gotrue_url: get_or_default("ADMIN_FRONTEND_GOTRUE_URL", "http://localhost:9999"),
-      appflowy_cloud_url: get_or_default(
+      bincnote_cloud_url: get_or_default(
         "ADMIN_FRONTEND_APPFLOWY_CLOUD_URL",
         "http://localhost:8000",
       ),
       oauth: OAuthConfig {
-        client_id: get_or_default("ADMIN_FRONTEND_OAUTH_CLIENT_ID", "appflowy_cloud"),
+        client_id: get_or_default("ADMIN_FRONTEND_OAUTH_CLIENT_ID", "bincnote_cloud"),
         client_secret: get_optional("ADMIN_FRONTEND_OAUTH_CLIENT_SECRET"),
         allowable_redirect_uris: get_or_default(
           "ADMIN_FRONTEND_OAUTH_ALLOWABLE_REDIRECT_URIS",

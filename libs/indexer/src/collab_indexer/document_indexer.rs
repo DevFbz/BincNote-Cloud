@@ -3,7 +3,7 @@ use crate::vector::embedder::AFEmbedder;
 use crate::vector::open_ai::group_paragraphs_by_max_content_len;
 use anyhow::anyhow;
 use app_error::AppError;
-use appflowy_ai_client::dto::EmbeddingModel;
+use bincnote_ai_client::dto::EmbeddingModel;
 use async_openai::types::{CreateEmbeddingRequestArgs, EmbeddingInput, EncodingFormat};
 use async_trait::async_trait;
 use collab::preclude::Collab;
@@ -147,7 +147,7 @@ pub fn split_text_into_chunks(
   let split_contents = group_paragraphs_by_max_content_len(paragraphs, chunk_size, overlap);
   let metadata = json!({
       "id": object_id,
-      "source": "appflowy",
+      "source": "bincnote",
       "name": "document",
   });
 

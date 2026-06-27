@@ -22,12 +22,12 @@ pub struct Config {
   pub redis_uri: Secret<String>,
   pub redis_worker_count: usize,
   pub s3: S3Setting,
-  pub appflowy_ai: AppFlowyAISetting,
+  pub bincnote_ai: BincNoteAISetting,
   pub collab: CollabSetting,
   pub published_collab: PublishedCollabSetting,
   pub mailer: MailerSetting,
   pub apple_oauth: AppleOAuthSetting,
-  pub appflowy_web_url: String,
+  pub bincnote_web_url: String,
   pub open_ai_config: Option<OpenAIConfig>,
   pub azure_ai_config: Option<AzureConfig>,
 }
@@ -72,12 +72,12 @@ pub struct GoTrueSetting {
 }
 
 #[derive(serde::Deserialize, Clone, Debug)]
-pub struct AppFlowyAISetting {
+pub struct BincNoteAISetting {
   pub port: Secret<String>,
   pub host: Secret<String>,
 }
 
-impl AppFlowyAISetting {
+impl BincNoteAISetting {
   pub fn url(&self) -> String {
     format!(
       "http://{}:{}",
@@ -226,11 +226,11 @@ pub fn get_configuration() -> Result<Config, anyhow::Error> {
       minio_url: get_env_var("APPFLOWY_S3_MINIO_URL", "http://localhost:9000"),
       access_key: get_env_var("APPFLOWY_S3_ACCESS_KEY", "minioadmin"),
       secret_key: get_env_var("APPFLOWY_S3_SECRET_KEY", "minioadmin").into(),
-      bucket: get_env_var("APPFLOWY_S3_BUCKET", "appflowy"),
+      bucket: get_env_var("APPFLOWY_S3_BUCKET", "bincnote"),
       region: get_env_var("APPFLOWY_S3_REGION", ""),
       presigned_url_endpoint: get_env_var_opt("APPFLOWY_S3_PRESIGNED_URL_ENDPOINT"),
     },
-    appflowy_ai: AppFlowyAISetting {
+    bincnote_ai: BincNoteAISetting {
       port: get_env_var("AI_SERVER_PORT", "5001").into(),
       host: get_env_var("AI_SERVER_HOST", "localhost").into(),
     },
@@ -263,7 +263,7 @@ pub fn get_configuration() -> Result<Config, anyhow::Error> {
       client_id: get_env_var("APPFLOWY_APPLE_OAUTH_CLIENT_ID", ""),
       client_secret: get_env_var("APPFLOWY_APPLE_OAUTH_CLIENT_SECRET", "").into(),
     },
-    appflowy_web_url: get_env_var_opt("APPFLOWY_WEB_URL")
+    bincnote_web_url: get_env_var_opt("APPFLOWY_WEB_URL")
       .ok_or(anyhow!("APPFLOWY_WEB_URL has not been set"))?,
     open_ai_config,
     azure_ai_config,

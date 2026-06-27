@@ -21,7 +21,7 @@ infra = { workspace = true, features = ["request_util"] }
 collab-entity = { workspace = true }
 app-error = { workspace = true }
 chrono = "0.4.31"
-appflowy-ai-client = { workspace = true, default-features = false, features = [
+bincnote-ai-client = { workspace = true, default-features = false, features = [
   "dto",
 ] }
 pin-project = "1.1.5"

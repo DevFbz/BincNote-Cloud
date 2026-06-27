@@ -34,8 +34,8 @@ fn page_router() -> Router<AppState> {
     .route("/payment-success", get(payment_success_handler))
     .route("/login-callback-query", get(login_callback_query_handler))
     .route(
-      "/open-appflowy-or-download",
-      get(open_appflowy_or_download_handler),
+      "/open-bincnote-or-download",
+      get(open_bincnote_or_download_handler),
     )
     .route("/home", get(home_handler))
     .route("/admin/home", get(admin_home_handler))
@@ -63,8 +63,8 @@ fn component_router() -> Router<AppState> {
     .route("/admin/sso/:sso_provider_id", get(admin_sso_detail_handler))
 }
 
-async fn open_appflowy_or_download_handler() -> Result<Html<String>, WebAppError> {
-  render_template(templates::OpenAppFlowyOrDownload {})
+async fn open_bincnote_or_download_handler() -> Result<Html<String>, WebAppError> {
+  render_template(templates::OpenBincNoteOrDownload {})
 }
 
 async fn login_callback_handler() -> Result<Html<String>, WebAppError> {
@@ -95,7 +95,7 @@ async fn login_callback_query_handler(
               query.error_description
             );
             let redirect_url = format!(
-                "https://appflowy.io/invitation/expired?workspace_name={}&workspace_icon={}&user_name={}&user_icon={}&workspace_member_count={}",
+                "https://bincnote.io/invitation/expired?workspace_name={}&workspace_icon={}&user_name={}&user_icon={}&workspace_member_count={}",
                 query.workspace_name.unwrap_or_default(),
                 query.workspace_icon.unwrap_or_default(),
                 query.user_name.unwrap_or_default(),
@@ -125,7 +125,7 @@ async fn login_callback_query_handler(
 
   verify_token_cloud(
     token.access_token.as_str(),
-    state.appflowy_cloud_url.as_str(),
+    state.bincnote_cloud_url.as_str(),
   )
   .await?;
 
@@ -147,17 +147,17 @@ async fn login_callback_query_handler(
           ))?;
 
         {
-          // If user has already accepted the invitation, redirect to open or download AppFlowy
+          // If user has already accepted the invitation, redirect to open or download BincNote
           let accepted_invitations = get_accepted_workspace_invitations(
             &new_session.token.access_token,
-            &state.appflowy_cloud_url,
+            &state.bincnote_cloud_url,
           )
           .await?;
           let found = accepted_invitations
             .iter()
             .find(|w| w.invite_id.to_string() == invite_id);
           if found.is_some() {
-            let open_or_dl_html = render_template(templates::OpenAppFlowyOrDownload {})?;
+            let open_or_dl_html = render_template(templates::OpenBincNoteOrDownload {})?;
             return Ok((jar, open_or_dl_html).into_response());
           }
         }
@@ -165,13 +165,13 @@ async fn login_callback_query_handler(
         if let Err(err) = accept_workspace_invitation(
           &new_session.token.access_token,
           &invite_id,
-          &state.appflowy_cloud_url,
+          &state.bincnote_cloud_url,
         )
         .await
         {
           tracing::error!("accepting workspace invitation: {:?}", err);
           let redirect_url = format!(
-            "https://appflowy.io/invitation/expired?workspace_name={}&workspace_icon={}&user_name={}&user_icon={}&workspace_member_count={}",
+            "https://bincnote.io/invitation/expired?workspace_name={}&workspace_icon={}&user_name={}&user_icon={}&workspace_member_count={}",
             query.workspace_name.unwrap_or_default(),
             query.workspace_icon.unwrap_or_default(),
             query.user_name.unwrap_or_default(),
@@ -180,7 +180,7 @@ async fn login_callback_query_handler(
           let redirect_html = render_template(templates::Redirect { redirect_url })?;
           return Ok(redirect_html.into_response());
         };
-        let open_or_dl_html = render_template(templates::OpenAppFlowyOrDownload {})?;
+        let open_or_dl_html = render_template(templates::OpenBincNoteOrDownload {})?;
         Ok((jar, open_or_dl_html).into_response())
       },
     },
@@ -252,11 +252,11 @@ async fn shared_workspaces_handler(
   session: UserSession,
 ) -> Result<Html<String>, WebAppError> {
   let user_workspaces =
-    get_user_workspaces(&session.token.access_token, &state.appflowy_cloud_url).await?;
+    get_user_workspaces(&session.token.access_token, &state.bincnote_cloud_url).await?;
 
   let profile = get_user_profile(
     session.token.access_token.as_str(),
-    state.appflowy_cloud_url.as_str(),
+    state.bincnote_cloud_url.as_str(),
   )
   .await?;
 
@@ -273,11 +273,11 @@ async fn user_invite_handler(
   session: UserSession,
 ) -> Result<Html<String>, WebAppError> {
   let user_workspaces =
-    get_user_workspaces(&session.token.access_token, &state.appflowy_cloud_url).await?;
+    get_user_workspaces(&session.token.access_token, &state.bincnote_cloud_url).await?;
 
   let profile = get_user_profile(
     session.token.access_token.as_str(),
-    state.appflowy_cloud_url.as_str(),
+    state.bincnote_cloud_url.as_str(),
   )
   .await?;
 
@@ -289,7 +289,7 @@ async fn user_invite_handler(
       let members = get_workspace_members(
         workspace.workspace_id.to_string().as_str(),
         session.token.access_token.as_str(),
-        state.appflowy_cloud_url.as_str(),
+        state.bincnote_cloud_url.as_str(),
       )
       .await?;
       owned_workspaces.push(WorkspaceWithMembers { workspace, members });
@@ -300,7 +300,7 @@ async fn user_invite_handler(
 
   let pending_workspace_invitations = get_pending_workspace_invitations(
     session.token.access_token.as_str(),
-    state.appflowy_cloud_url.as_str(),
+    state.bincnote_cloud_url.as_str(),
   )
   .await?;
 
@@ -316,7 +316,7 @@ async fn user_usage_handler(
   session: UserSession,
 ) -> Result<Html<String>, WebAppError> {
   let workspace_count =
-    get_user_owned_workspaces(&session.token.access_token, &state.appflowy_cloud_url)
+    get_user_owned_workspaces(&session.token.access_token, &state.bincnote_cloud_url)
       .await
       .map(|workspaces| workspaces.len())
       .unwrap_or_else(|err| {
@@ -325,7 +325,7 @@ async fn user_usage_handler(
       });
 
   let workspace_limit =
-    get_user_workspace_limit(&session.token.access_token, &state.appflowy_cloud_url)
+    get_user_workspace_limit(&session.token.access_token, &state.bincnote_cloud_url)
       .await
       .map(|limit| limit.workspace_count.to_string())
       .unwrap_or_else(|err| {
@@ -344,7 +344,7 @@ async fn workspace_usage_handler(
   session: UserSession,
 ) -> Result<Html<String>, WebAppError> {
   let workspace_usages =
-    get_user_workspace_usages(&session.token.access_token, &app_state.appflowy_cloud_url).await?;
+    get_user_workspace_usages(&session.token.access_token, &app_state.bincnote_cloud_url).await?;
   render_template(templates::WorkspaceUsageList { workspace_usages })
 }
 

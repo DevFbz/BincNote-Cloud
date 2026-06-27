@@ -7,7 +7,7 @@
       "data": {
         "delta": [
           {
-            "insert": "Welcome to AppFlowy!"
+            "insert": "Welcome to BincNote!"
           }
         ],
         "level": 1
@@ -318,7 +318,7 @@
           },
           {
             "attributes": {
-              "href": "https://appflowy.gitbook.io/docs/essential-documentation/shortcuts"
+              "href": "https://bincnote.gitbook.io/docs/essential-documentation/shortcuts"
             },
             "insert": "guide"
           }
@@ -334,7 +334,7 @@
           },
           {
             "attributes": {
-              "href": "https://appflowy.gitbook.io/docs/essential-documentation/markdown"
+              "href": "https://bincnote.gitbook.io/docs/essential-documentation/markdown"
             },
             "insert": "reference"
           }
@@ -486,11 +486,11 @@
       "data": {
         "delta": [
           {
-            "insert": "\nLike AppFlowy? Follow us:\n"
+            "insert": "\nLike BincNote? Follow us:\n"
           },
           {
             "attributes": {
-              "href": "https://github.com/AppFlowy-IO/AppFlowy"
+              "href": "https://github.com/BincNote-IO/BincNote"
             },
             "insert": "GitHub"
           },
@@ -499,16 +499,16 @@
           },
           {
             "attributes": {
-              "href": "https://twitter.com/appflowy"
+              "href": "https://twitter.com/bincnote"
             },
             "insert": "Twitter"
           },
           {
-            "insert": ": @appflowy\n"
+            "insert": ": @bincnote\n"
           },
           {
             "attributes": {
-              "href": "https://blog-appflowy.ghost.io/"
+              "href": "https://blog-bincnote.ghost.io/"
             },
             "insert": "Newsletter"
           },
